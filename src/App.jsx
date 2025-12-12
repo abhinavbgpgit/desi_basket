@@ -2,8 +2,8 @@ import './index.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
-import SplashScreen from './pages/SplashScreen'
-import Onboarding from './pages/Onboarding'
+import LandingPage from './pages/landingPage/LandingPage.jsx'
+import HowDesiBasketWorks from './pages/HowDesiBasketWorks'
 import Auth from './pages/Auth'
 import MainLayout from './layouts/MainLayout'
 import HomeDashboard from './pages/HomeDashboard'
@@ -33,8 +33,8 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <Routes>
-            <Route path="/" element={<SplashScreen />} />
-            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/how-desi-basket-works" element={<HowDesiBasketWorks />} />
             <Route path="/auth" element={<Auth />} />
 
             <Route path="/app" element={

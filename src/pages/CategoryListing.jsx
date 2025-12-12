@@ -8,12 +8,6 @@ const CategoryListing = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [filters, setFilters] = useState({
-    priceRange: [0, 1000],
-    seasonal: false,
-    organic: false,
-    weeklyDelivery: true
-  });
   const [sortBy, setSortBy] = useState('popularity');
 
   useEffect(() => {
@@ -34,26 +28,12 @@ const CategoryListing = () => {
     fetchProducts();
   }, [categoryId]);
 
-  const handleFilterChange = (filterName, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [filterName]: value
-    }));
-  };
-
-  const applyFilters = () => {
-    // Filter logic would be applied here
-    // For now, we'll just log the filters
-    console.log('Applying filters:', filters);
-  };
-
-  const filteredProducts = products
-    .filter(product => filters.organic ? product.isOrganic : true)
-    .filter(product => filters.seasonal ? product.isSeasonal : true)
+  const sortedProducts = products
     .sort((a, b) => {
       if (sortBy === 'price-low') return a.price - b.price;
       if (sortBy === 'price-high') return b.price - a.price;
-      return 0; // Default sort
+      if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
+      return 0; // Default sort (popularity)
     });
 
   if (loading) {
@@ -62,23 +42,6 @@ const CategoryListing = () => {
         <div className="p-4">
           <div className="flex justify-between items-center mb-4">
             <div className="h-8 bg-gray-200 rounded w-32 animate-pulse"></div>
-          </div>
-
-          <div className="bg-white rounded-xl p-4 mb-6 shadow-sm">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
-              </div>
-            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -122,6 +85,17 @@ const CategoryListing = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-4">
+        {/* Back Button */}
+        <Link
+          to="/app"
+          className="inline-flex items-center text-green-600 hover:text-green-700 mb-4"
+        >
+          <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          All Categories
+        </Link>
+
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-xl font-bold text-gray-800 capitalize">{categoryId}</h1>
           <div className="flex items-center space-x-2">
@@ -135,55 +109,11 @@ const CategoryListing = () => {
               <option value="price-high">Price: High to Low</option>
               <option value="rating">Top Rated</option>
             </select>
-            <button
-              onClick={applyFilters}
-              className="p-2 border border-gray-200 rounded-md hover:bg-gray-50"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div className="bg-white rounded-xl p-4 mb-6 shadow-sm">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="seasonal"
-                checked={filters.seasonal}
-                onChange={() => handleFilterChange('seasonal', !filters.seasonal)}
-                className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-              />
-              <label htmlFor="seasonal" className="ml-2 text-sm text-gray-700">Seasonal</label>
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="organic"
-                checked={filters.organic}
-                onChange={() => handleFilterChange('organic', !filters.organic)}
-                className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-              />
-              <label htmlFor="organic" className="ml-2 text-sm text-gray-700">Organic</label>
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="weeklyDelivery"
-                checked={filters.weeklyDelivery}
-                onChange={() => handleFilterChange('weeklyDelivery', !filters.weeklyDelivery)}
-                className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-              />
-              <label htmlFor="weeklyDelivery" className="ml-2 text-sm text-gray-700">Weekly Delivery</label>
-            </div>
           </div>
         </div>
 
         {/* Products Grid */}
-        {filteredProducts.length === 0 ? (
+        {sortedProducts.length === 0 ? (
           <div className="text-center py-8">
             <img src="/empty-products.png" alt="No products found" className="w-32 h-32 mx-auto mb-4" />
             <p className="text-gray-600">No products found in this category</p>
@@ -193,7 +123,7 @@ const CategoryListing = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4">
-            {filteredProducts.map((product) => (
+            {sortedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

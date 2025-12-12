@@ -128,55 +128,71 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-6">
-      <div className="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-            </svg>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-6">
+      <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div className="flex flex-col lg:flex-row">
+          {/* Left side - Visual content */}
+          <div className="lg:w-1/2 bg-gradient-to-br from-green-600 to-emerald-700 p-8 lg:p-12 flex flex-col justify-center items-center text-white">
+           
+              <img src="/src/assets/desi_logo_inverted.png" alt="Desi Basket Logo" className="w-72  h-20" />
+           
+            <h1 className="text-3xl lg:text-4xl font-bold mb-4 text-center">Welcome to Desi Basket</h1>
+            <p className="text-center text-green-100 mb-8 max-w-sm">
+              Experience the freshest produce directly from local farmers to your doorstep.
+            </p>
+
+            {/* Sab Hatke Foods Image */}
+            <div className="relative w-72  h-64 rounded-2xl overflow-hidden">
+              <img
+                src="/src/assets/foods.png"
+                alt="Sab Hatke Foods"
+                className="w-72 h-full "
+              />
+            </div>
           </div>
-          <h1 className="text-2xl font-bold text-green-800">Welcome to FarmFresh</h1>
+
+          {/* Right side - Form content */}
+          <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center items-center">
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg mb-4 text-sm"
+              >
+                {error}
+              </motion.div>
+            )}
+
+            {step === 'phone' && (
+              <PhoneStep
+                phone={phone}
+                setPhone={setPhone}
+                onSubmit={handlePhoneSubmit}
+                loading={loading}
+              />
+            )}
+
+            {step === 'otp' && (
+              <OtpStep
+                otp={otp}
+                setOtp={setOtp}
+                onSubmit={handleOtpSubmit}
+                onResend={() => sendOTP(phone)}
+                loading={loading}
+                phone={phone}
+              />
+            )}
+
+            {step === 'profile' && (
+              <ProfileStep
+                profileData={profileData}
+                onChange={handleInputChange}
+                onSubmit={handleProfileSubmit}
+                loading={loading}
+              />
+            )}
+          </div>
         </div>
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg mb-4 text-sm"
-          >
-            {error}
-          </motion.div>
-        )}
-
-        {step === 'phone' && (
-          <PhoneStep
-            phone={phone}
-            setPhone={setPhone}
-            onSubmit={handlePhoneSubmit}
-            loading={loading}
-          />
-        )}
-
-        {step === 'otp' && (
-          <OtpStep
-            otp={otp}
-            setOtp={setOtp}
-            onSubmit={handleOtpSubmit}
-            onResend={() => sendOTP(phone)}
-            loading={loading}
-            phone={phone}
-          />
-        )}
-
-        {step === 'profile' && (
-          <ProfileStep
-            profileData={profileData}
-            onChange={handleInputChange}
-            onSubmit={handleProfileSubmit}
-            loading={loading}
-          />
-        )}
       </div>
     </div>
   );
@@ -185,24 +201,24 @@ const Auth = () => {
 const PhoneStep = ({ phone, setPhone, onSubmit, loading }) => {
   return (
     <form onSubmit={onSubmit}>
-      <div className="mb-6">
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-          Mobile Number
-        </label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-            +91
-          </span>
-          <input
-            type="tel"
-            id="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter your mobile number"
-            className="flex-1 rounded-r-lg border-gray-300 focus:ring-green-500 focus:border-green-500"
-            maxLength={10}
-            required
-          />
+      <div className="mb-6 ">
+       
+        <div className="flex justify-center items-center">
+          <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full max-w-md">
+            <span className="inline-flex items-center px-3 bg-gray-50 text-gray-500 text-sm h-12 border-r border-gray-300">
+              +91
+            </span>
+            <input
+              type="tel"
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter your mobile number"
+              className="flex-1 h-12 border-none focus:ring-green-500 focus:border-green-500 focus:outline-none px-3"
+              maxLength={10}
+              required
+            />
+          </div>
         </div>
         <p className="text-xs text-gray-500 mt-2">
           We'll send you a one-time password (OTP) to verify your number

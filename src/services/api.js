@@ -106,6 +106,9 @@ function fetchProductsFromDataJson() {
         case 'pulses_grains':
           productCategory = PRODUCT_CATEGORIES.GRAINS;
           break;
+        case 'dairy':
+          productCategory = PRODUCT_CATEGORIES.DAIRY;
+          break;
         case 'oils_spices':
           productCategory = PRODUCT_CATEGORIES.LOCAL_PROCESSED;
           break;

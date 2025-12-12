@@ -4,6 +4,8 @@ import { useCart } from '../context/CartContext';
 import { apiService as api } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import ComboPackCard from '../components/ComboPackCard';
+import FarmerCard from '../components/FarmerCard';
+import farmersData from '../data/farmers.json';
 
 const HomeDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -188,11 +190,9 @@ const HomeDashboard = () => {
             See All
           </Link>
         </div>
-        <div className="flex overflow-x-auto space-x-4 pb-4">
+        <div className="grid grid-cols-2 gap-4">
           {featuredProducts.map((product) => (
-            <div key={product.id} className="flex-shrink-0 w-48">
-              <ProductCard product={product} />
-            </div>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>
@@ -248,202 +248,41 @@ const HomeDashboard = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Meet Our Local Farmers</h2>
           <Link to="/app/farmers" className="text-green-600 text-sm hover:text-green-700 flex items-center">
-            View All Farmers
+            View All {farmersData.farmers.length} Farmers
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {/* Modern Farmer Card 1 */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
-            <div className="flex">
-              <div className="w-2/5">
-                <img
-                  src="/farmer1.jpg"
-                  alt="Ramesh Kumar - Organic Vegetable Farmer"
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = '/farmer-placeholder.jpg'; }}
-                />
-              </div>
-              <div className="w-3/5 p-4">
-                <h3 className="font-semibold text-gray-800 mb-1">Ramesh Kumar</h3>
-                <p className="text-sm text-green-600 mb-1">🌱 Organic Vegetables</p>
-                <div className="flex items-center text-xs text-gray-500 mb-2">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 0 000 4z" clipRule="evenodd"></path>
-                  </svg>
-                  Gorakhpur, UP
-                </div>
-                <p className="text-xs text-gray-500 mb-2">15+ years experience</p>
-                <div className="flex items-center text-xs text-green-600 mb-1">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
-                  </svg>
-                  Certified Organic
-                </div>
-                <div className="flex items-center text-xs text-blue-600">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-                  </svg>
-                  4.8★ (120 reviews)
-                </div>
-                <div className="mt-2 pt-2 border-t border-gray-100">
-                  <Link to="/app/farmers" className="text-xs text-green-60 hover:text-green-800 font-medium">
-                    See more to connect →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Modern Farmer Card 2 */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
-            <div className="flex">
-              <div className="w-2/5">
-                <img
-                  src="/farmer2.jpg"
-                  alt="Sita Devi - Dairy Farmer"
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = '/farmer-placeholder.jpg'; }}
-                />
-              </div>
-              <div className="w-3/5 p-4">
-                <h3 className="font-semibold text-gray-800 mb-1">Sita Devi</h3>
-                <p className="text-sm text-green-600 mb-1">🥛 A2 Milk & Ghee</p>
-                <div className="flex items-center text-xs text-gray-500 mb-2">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"></path>
-                  </svg>
-                  Varanasi, UP
-                </div>
-                <p className="text-xs text-gray-500 mb-2">20+ years experience</p>
-                <div className="flex items-center text-xs text-green-600 mb-1">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
-                  </svg>
-                  Premium Quality
-                </div>
-                <div className="flex items-center text-xs text-blue-600">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-                  </svg>
-                  4.9★ (98 reviews)
-                </div>
-                <div className="mt-2 pt-2 border-t border-gray-100">
-                  <Link to="/app/farmers" className="text-xs text-green-60 hover:text-green-800 font-medium">
-                    See more to connect →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Modern Farmer Card 3 */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
-            <div className="flex">
-              <div className="w-2/5">
-                <img
-                  src="/farmer3.jpg"
-                  alt="Amit Yadav - Seasonal Produce Farmer"
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = '/farmer-placeholder.jpg'; }}
-                />
-              </div>
-              <div className="w-3/5 p-4">
-                <h3 className="font-semibold text-gray-800 mb-1">Amit Yadav</h3>
-                <p className="text-sm text-green-600 mb-1">🍎 Seasonal Produce</p>
-                <div className="flex items-center text-xs text-gray-500 mb-2">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"></path>
-                  </svg>
-                  Lucknow, UP
-                </div>
-                <p className="text-xs text-gray-500 mb-2">8+ years experience</p>
-                <div className="flex items-center text-xs text-green-600 mb-1">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
-                  </svg>
-                  Farm Fresh
-                </div>
-                <div className="flex items-center text-xs text-blue-600">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-                  </svg>
-                  4.7★ (85 reviews)
-                </div>
-                <div className="mt-2 pt-2 border-t border-gray-100">
-                  <Link to="/app/farmers" className="text-xs text-green-60 hover:text-green-800 font-medium">
-                    See more to connect →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Modern Farmer Card 4 */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
-            <div className="flex">
-              <div className="w-2/5">
-                <img
-                  src="/farmer4.jpg"
-                  alt="Priya Sharma - Grains & Pulses Farmer"
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = '/farmer-placeholder.jpg'; }}
-                />
-              </div>
-              <div className="w-3/5 p-4">
-                <h3 className="font-semibold text-gray-800 mb-1">Priya Sharma</h3>
-                <p className="text-sm text-green-600 mb-1">🌾 Grains & Pulses</p>
-                <div className="flex items-center text-xs text-gray-500 mb-2">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"></path>
-                  </svg>
-                  Kanpur, UP
-                </div>
-                <p className="text-xs text-gray-500 mb-2">12+ years experience</p>
-                <div className="flex items-center text-xs text-green-600 mb-1">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
-                  </svg>
-                  Traditional Farming
-                </div>
-                <div className="flex items-center text-xs text-blue-600">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-                  </svg>
-                  4.8★ (110 reviews)
-                </div>
-                <div className="mt-2 pt-2 border-t border-gray-100">
-                  <Link to="/app/farmers" className="text-xs text-green-60 hover:text-green-800 font-medium">
-                    See more to connect →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Display first 5 farmers using FarmerCard component */}
+          {farmersData.farmers.slice(0, 5).map((farmer) => (
+            <FarmerCard key={farmer.id} farmer={farmer} compact={true} />
+          ))}
 
           {/* Browse All Farmers Card */}
-          <div className="bg-green-50 rounded-xl p-4 text-center hover:bg-green-100 transition-colors">
-            <div className="w-12 h-12 rounded-lg mx-auto mb-3 bg-green-100 flex items-center justify-center">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <Link 
+            to="/app/farmers"
+            className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 text-center hover:from-green-100 hover:to-emerald-100 transition-all duration-300 border-2 border-green-200 hover:border-green-300 flex flex-col items-center justify-center group"
+          >
+            <div className="w-14 h-14 rounded-full mx-auto mb-3 bg-green-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.273-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.273.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <h3 className="font-medium text-gray-800 mb-1">Explore All Farmers</h3>
-            <p className="text-xs text-gray-600 mb-3">Discover our local farming community</p>
-            <Link to="/app/farmers" className="inline-flex items-center text-green-600 text-sm font-medium hover:text-green-700">
-              Browse All Farmers
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="font-bold text-gray-900 mb-1 text-sm">Explore All Farmers</h3>
+            <p className="text-xs text-gray-600 mb-3">Discover {farmersData.farmers.length}+ local farmers</p>
+            <span className="inline-flex items-center text-green-600 text-sm font-semibold group-hover:text-green-700">
+              Browse All
+              <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </Link>
-          </div>
-       </div>
-       
-     </div>
-   </div>
- );
+            </span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default HomeDashboard;

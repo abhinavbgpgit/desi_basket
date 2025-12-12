@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { apiService as api } from '../services/api';
+import FarmerCard from '../components/FarmerCard';
+import farmersData from '../data/farmers.json';
 
 const Farmers = () => {
   const [farmers, setFarmers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterSpecialty, setFilterSpecialty] = useState('all');
 
   useEffect(() => {
-    const fetchFarmers = async () => {
+    const loadFarmers = async () => {
       try {
         setLoading(true);
-        const data = await api.getAllFarmers();
-        setFarmers(data);
+        // Simulate API call delay for smooth loading experience
+        await new Promise(resolve => setTimeout(resolve, 500));
+        setFarmers(farmersData.farmers);
       } catch (error) {
         console.error('Failed to load farmers:', error);
         setError('Failed to load farmers. Please try again.');
@@ -21,27 +24,51 @@ const Farmers = () => {
       }
     };
 
-    fetchFarmers();
+    loadFarmers();
   }, []);
+
+  // Get unique specialties for filter
+  const specialties = ['all', ...new Set(farmers.flatMap(f => f.specialties || []))];
+
+  // Filter farmers based on search and specialty
+  const filteredFarmers = farmers.filter(farmer => {
+    const matchesSearch = searchQuery === '' || 
+      farmer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      farmer.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (farmer.specialties && farmer.specialties.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())));
+    
+    const matchesSpecialty = filterSpecialty === 'all' || 
+      (farmer.specialties && farmer.specialties.includes(filterSpecialty));
+    
+    return matchesSearch && matchesSpecialty;
+  });
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4">
-        <h1 className="text-2xl font-bold text-green-800 mb-6">Our Local Farmers</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(3)].map((_, index) => (
-            <div key={index} className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden animate-pulse">
-              <div className="flex">
-                <div className="w-2/5">
-                  <div className="w-full h-full bg-gray-200"></div>
-                </div>
-                <div className="w-3/5 p-4">
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-20 rounded w-3/4 mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white p-4">
+        {/* Header Skeleton */}
+        <div className="mb-6">
+          <div className="h-8 bg-gray-200 rounded w-64 mb-4 animate-pulse"></div>
+          <div className="h-4 bg-gray-200 rounded w-96 animate-pulse"></div>
+        </div>
+
+        {/* Search Bar Skeleton */}
+        <div className="mb-6">
+          <div className="h-12 bg-gray-200 rounded-full animate-pulse"></div>
+        </div>
+
+        {/* Cards Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden animate-pulse">
+              <div className="flex h-64">
+                <div className="w-2/5 bg-gray-200"></div>
+                <div className="w-3/5 p-6">
+                  <div className="h-5 bg-gray-200 rounded mb-3"></div>
+                  <div className="h-3 bg-gray-200 rounded w-3/4 mb-3"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/2 mb-3"></div>
+                  <div className="h-3 bg-gray-200 rounded w-2/3 mb-3"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                 </div>
               </div>
             </div>
@@ -53,18 +80,18 @@ const Farmers = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center p-4">
+        <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md">
+          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Farmers</h2>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Error Loading Farmers</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
           >
             Try Again
           </button>
@@ -74,66 +101,125 @@ const Farmers = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <h1 className="text-2xl font-bold text-green-800 mb-6">Our Local Farmers</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {farmers.map((farmer) => (
-          <div key={farmer.id} className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
-            <div className="flex">
-              <div className="w-2/5">
-                <img
-                  src={farmer.image || '/farmer-placeholder.jpg'}
-                  alt={farmer.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = '/farmer-placeholder.jpg';
-                  }}
-                />
-              </div>
-              <div className="w-3/5 p-4">
-                <h3 className="font-semibold text-gray-800 mb-1">{farmer.name}</h3>
-                <p className="text-sm text-green-600 mb-1">{farmer.specialties && farmer.specialties.length > 0 ? `🌱 ${farmer.specialties[0]}` : '🌱 Local Produce'}</p>
-                <div className="flex items-center text-xs text-gray-500 mb-2">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"></path>
-                  </svg>
-                  {farmer.location || 'Bhagalpur, Bihar'}
-                </div>
-                <p className="text-xs text-gray-500 mb-2">{farmer.yearsExperience || '5'}+ years experience</p>
-                <div className="flex items-center text-xs text-green-600 mb-1">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
-                  </svg>
-                  {farmer.certifications && farmer.certifications.length > 0 ? farmer.certifications[0] : 'Certified Farmer'}
-                </div>
-                <div className="flex items-center text-xs text-blue-600 mb-2">
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1zm0 4a1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1z" clipRule="evenodd"></path>
-                  </svg>
-                  {farmer.rating || '4.5★'} ({farmer.reviewCount || '50'} reviews)
-                </div>
-                <div className="mt-2 pt-2 border-t border-gray-100">
-                  <Link to={`/app/farmer/${farmer.id}`} className="text-xs text-green-60 hover:text-green-800 font-medium">
-                    See more to connect →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white p-4 pb-8">
+      {/* Header Section */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center">
+          <span className="text-green-600 mr-2">🌾</span>
+          Our Local Farmers
+        </h1>
+        <p className="text-gray-600">
+          Connect directly with {farmers.length} verified local farmers in your region
+        </p>
       </div>
 
-      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-        <h2 className="text-lg font-semibold text-green-800 mb-2">About Our Farmers</h2>
-        <p className="text-gray-600 mb-4">
-          All our farmers are local to the Bhagalpur region and follow traditional, organic farming practices.
-          They are certified and committed to providing the freshest, most natural produce to our community.
+      {/* Search and Filter Section */}
+      <div className="mb-6 space-y-4">
+        {/* Search Bar */}
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search farmers by name, location, or specialty..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
+          />
+          <div className="absolute left-4 top-3.5 text-gray-400">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-4 top-3.5 text-gray-400 hover:text-gray-600"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Specialty Filter */}
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2">
+          <span className="text-sm font-medium text-gray-700 whitespace-nowrap">Filter by:</span>
+          {specialties.map((specialty) => (
+            <button
+              key={specialty}
+              onClick={() => setFilterSpecialty(specialty)}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                filterSpecialty === specialty
+                  ? 'bg-green-600 text-white shadow-md'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:border-green-500 hover:text-green-600'
+              }`}
+            >
+              {specialty === 'all' ? 'All Farmers' : specialty}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Results Count */}
+      <div className="mb-4">
+        <p className="text-sm text-gray-600">
+          Showing <span className="font-semibold text-gray-900">{filteredFarmers.length}</span> farmer{filteredFarmers.length !== 1 ? 's' : ''}
+          {searchQuery && ` matching "${searchQuery}"`}
+          {filterSpecialty !== 'all' && ` in ${filterSpecialty}`}
         </p>
-        <p className="text-gray-600">
-          By purchasing from our platform, you're directly supporting local farmers and helping to sustain
-          traditional agricultural practices in our region.
-        </p>
+      </div>
+
+      {/* Farmers Grid */}
+      {filteredFarmers.length > 0 ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {filteredFarmers.map((farmer) => (
+            <FarmerCard key={farmer.id} farmer={farmer} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-16">
+          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">No farmers found</h3>
+          <p className="text-gray-600 mb-4">Try adjusting your search or filter criteria</p>
+          <button
+            onClick={() => {
+              setSearchQuery('');
+              setFilterSpecialty('all');
+            }}
+            className="text-green-600 hover:text-green-700 font-medium"
+          >
+            Clear all filters
+          </button>
+        </div>
+      )}
+
+      {/* Info Section */}
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6 shadow-sm">
+        <div className="flex items-start space-x-4">
+          <div className="flex-shrink-0">
+            <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold text-gray-900 mb-2">About Our Farmers</h2>
+            <p className="text-gray-700 mb-3">
+              All our farmers are local to the Bihar and Uttar Pradesh regions and follow traditional, sustainable farming practices.
+              They are certified and committed to providing the freshest, most natural produce to our community.
+            </p>
+            <p className="text-gray-700">
+              By purchasing from our platform, you're directly supporting local farmers and helping to sustain
+              traditional agricultural practices in our region. Each farmer profile includes their specialties,
+              certifications, and customer reviews to help you make informed choices.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
