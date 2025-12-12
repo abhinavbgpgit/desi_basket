@@ -19,7 +19,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { sendOTP, login, completeProfile } = useAuth();
+  const { sendOTP, login, completeProfile, setUser } = useAuth();
   const navigate = useNavigate();
 
   const handlePhoneSubmit = async (e) => {
@@ -68,6 +68,11 @@ const Auth = () => {
       // Store mock token and user data
       localStorage.setItem('token', 'mock-token-' + phone);
       localStorage.setItem('user', JSON.stringify(mockUser));
+
+      // CRITICAL: Update AuthContext state to prevent redirect loop
+      if (setUser) {
+        setUser(mockUser);
+      }
 
       // Navigate directly to app
       navigate('/app');
