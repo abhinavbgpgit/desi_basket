@@ -29,8 +29,25 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await api.getUserProfile();
-        setProfileData(response.user);
+        
+        // Load from localStorage first
+        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+        const storedProfile = JSON.parse(localStorage.getItem('profileData') || '{}');
+        
+        setProfileData({
+          name: storedProfile.name || storedUser.name || '',
+          phone: storedUser.phone || '',
+          email: storedProfile.email || storedUser.email || '',
+          addresses: storedProfile.addresses || []
+        });
+        
+        // Try to fetch from API (will fail gracefully if API not ready)
+        try {
+          const response = await api.getUserProfile();
+          setProfileData(response.user);
+        } catch (apiError) {
+          console.log('API not ready, using local data');
+        }
       } catch (error) {
         console.error('Failed to load profile:', error);
         setError('Failed to load profile. Please try again.');
@@ -39,9 +56,7 @@ const Profile = () => {
       }
     };
 
-    if (user) {
-      fetchProfile();
-    }
+    fetchProfile();
   }, [user]);
 
   const handleInputChange = (e) => {
@@ -63,7 +78,17 @@ const Profile = () => {
   const handleSaveProfile = async () => {
     try {
       setLoading(true);
-      // In a real app, you would call: await api.updateProfile(profileData);
+      
+      // Save to localStorage
+      localStorage.setItem('profileData', JSON.stringify(profileData));
+      
+      // Try to save to API (will fail gracefully if API not ready)
+      try {
+        await api.updateProfile(profileData);
+      } catch (apiError) {
+        console.log('API not ready, saved locally');
+      }
+      
       setEditing(false);
     } catch (error) {
       console.error('Failed to save profile:', error);
@@ -74,10 +99,34 @@ const Profile = () => {
   };
 
   const handleAddAddress = () => {
-    setProfileData(prev => ({
-      ...prev,
-      addresses: [...prev.addresses, newAddress]
-    }));
+    // Validate required fields
+    if (!newAddress.name.trim() || !newAddress.phone.trim() ||
+        !newAddress.addressLine1.trim() || !newAddress.city.trim() ||
+        !newAddress.state.trim() || !newAddress.pincode.trim()) {
+      setError('Please fill all required address fields');
+      return;
+    }
+
+    if (!newAddress.phone.match(/^[6-9]\d{9}$/)) {
+      setError('Please enter a valid 10-digit mobile number');
+      return;
+    }
+
+    if (!newAddress.pincode.match(/^\d{6}$/)) {
+      setError('Please enter a valid 6-digit pincode');
+      return;
+    }
+
+    const updatedProfile = {
+      ...profileData,
+      addresses: [...profileData.addresses, newAddress]
+    };
+
+    setProfileData(updatedProfile);
+    
+    // Save to localStorage immediately
+    localStorage.setItem('profileData', JSON.stringify(updatedProfile));
+    
     setNewAddress({
       name: '',
       phone: '',
@@ -89,6 +138,8 @@ const Profile = () => {
       landmark: '',
       isDefault: false
     });
+    
+    setError('');
   };
 
   const handleLogout = () => {
@@ -213,14 +264,24 @@ const Profile = () => {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-800">Saved Addresses</h2>
             <button
-              onClick={() => setNewAddress(prev => ({ ...prev, isDefault: profileData.addresses.length === 0 }))}
+              onClick={() => setNewAddress({
+                name: '',
+                phone: '',
+                addressLine1: '',
+                addressLine2: '',
+                city: '',
+                state: '',
+                pincode: '',
+                landmark: '',
+                isDefault: profileData.addresses.length === 0
+              })}
               className="text-green-600 text-sm hover:text-green-700"
             >
               + Add New Address
             </button>
           </div>
 
-          {newAddress.name !== '' && (
+          {(newAddress.name !== '' || newAddress.addressLine1 !== '') && (
             <div className="bg-green-50 rounded-lg p-4 mb-4 border border-green-200">
               <h3 className="font-semibold text-green-800 mb-3">Add New Address</h3>
               <div className="space-y-3">

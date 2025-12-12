@@ -59,16 +59,18 @@ const Auth = () => {
       // Simulate successful login with mock user data
       const mockUser = {
         phone: phone,
-        profileCompleted: false, // Force profile completion step
+        profileCompleted: true, // Skip profile completion
         name: '',
-        email: ''
+        email: '',
+        hasAddress: false // Track if user has added address
       };
 
-      // Store mock token
+      // Store mock token and user data
       localStorage.setItem('token', 'mock-token-' + phone);
+      localStorage.setItem('user', JSON.stringify(mockUser));
 
-      // Move to profile step
-      setStep('profile');
+      // Navigate directly to app
+      navigate('/app');
     } catch (error) {
       setError(error.message || 'Invalid OTP');
     } finally {
@@ -76,58 +78,6 @@ const Auth = () => {
     }
   };
 
-  const handleProfileSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    if (!profileData.name.trim()) {
-      setError('Please enter your name');
-      setLoading(false);
-      return;
-    }
-
-    if (!profileData.address.trim()) {
-      setError('Please enter your address');
-      setLoading(false);
-      return;
-    }
-
-    if (!profileData.city.trim()) {
-      setError('Please enter your city');
-      setLoading(false);
-      return;
-    }
-
-    if (!profileData.pincode.match(/^\d{6}$/)) {
-      setError('Please enter a valid 6-digit pincode');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await completeProfile({
-        ...profileData,
-        phone
-      });
-
-      if (response.success) {
-        navigate('/app');
-      }
-    } catch (error) {
-      setError(error.message || 'Failed to complete profile');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-6">
@@ -182,15 +132,6 @@ const Auth = () => {
                 onResend={() => sendOTP(phone)}
                 loading={loading}
                 phone={phone}
-              />
-            )}
-
-            {step === 'profile' && (
-              <ProfileStep
-                profileData={profileData}
-                onChange={handleInputChange}
-                onSubmit={handleProfileSubmit}
-                loading={loading}
               />
             )}
           </div>
@@ -341,132 +282,6 @@ const OtpStep = ({ otp, setOtp, onSubmit, onResend, loading, phone }) => {
           </span>
         ) : (
           'Verify OTP'
-        )}
-      </motion.button>
-    </form>
-  );
-};
-
-const ProfileStep = ({ profileData, onChange, onSubmit, loading }) => {
-  return (
-    <form onSubmit={onSubmit}>
-      <div className="space-y-4 mb-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={profileData.name}
-            onChange={onChange}
-            placeholder="Enter your full name"
-            className="w-full rounded-lg border-gray-300 focus:ring-green-500 focus:border-green-500"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
-            Full Address
-          </label>
-          <textarea
-            id="address"
-            name="address"
-            value={profileData.address}
-            onChange={onChange}
-            placeholder="Enter your full address"
-            rows={3}
-            className="w-full rounded-lg border-gray-300 focus:ring-green-500 focus:border-green-500"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
-            City
-          </label>
-          <input
-            type="text"
-            id="city"
-            name="city"
-            value={profileData.city}
-            onChange={onChange}
-            placeholder="Enter your city"
-            className="w-full rounded-lg border-gray-300 focus:ring-green-500 focus:border-green-500"
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="pincode" className="block text-sm font-medium text-gray-700 mb-1">
-              Pincode
-            </label>
-            <input
-              type="text"
-              id="pincode"
-              name="pincode"
-              value={profileData.pincode}
-              onChange={onChange}
-              placeholder="Enter pincode"
-              maxLength={6}
-              className="w-full rounded-lg border-gray-300 focus:ring-green-500 focus:border-green-500"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="referralCode" className="block text-sm font-medium text-gray-700 mb-1">
-              Referral Code (Optional)
-            </label>
-            <input
-              type="text"
-              id="referralCode"
-              name="referralCode"
-              value={profileData.referralCode || ''}
-              onChange={onChange}
-              placeholder="Enter referral code"
-              className="w-full rounded-lg border-gray-300 focus:ring-green-500 focus:border-green-500"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="deliveryInstructions" className="block text-sm font-medium text-gray-700 mb-1">
-            Delivery Instructions (Optional)
-          </label>
-          <textarea
-            id="deliveryInstructions"
-            name="deliveryInstructions"
-            value={profileData.deliveryInstructions || ''}
-            onChange={onChange}
-            placeholder="Any special delivery instructions?"
-            rows={2}
-            className="w-full rounded-lg border-gray-300 focus:ring-green-500 focus:border-green-500"
-          />
-        </div>
-      </div>
-
-      <motion.button
-        whileTap={{ scale: 0.98 }}
-        type="submit"
-        disabled={loading}
-        className={`w-full py-3 rounded-lg font-semibold text-white transition-colors ${
-          loading
-            ? 'bg-green-300 cursor-not-allowed'
-            : 'bg-green-600 hover:bg-green-700'
-        }`}
-      >
-        {loading ? (
-          <span className="flex items-center justify-center">
-            <svg className="w-5 h-5 animate-spin mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5M20 20v-5h-5M4 20h5v-5M20 4h-5v5" />
-            </svg>
-            Completing Profile...
-          </span>
-        ) : (
-          'Complete Profile'
         )}
       </motion.button>
     </form>

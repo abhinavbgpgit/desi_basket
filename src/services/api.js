@@ -40,10 +40,8 @@ const PRODUCT_CATEGORIES = {
   FRUITS: 'Fruits',
   GRAINS: 'Grains',
   DAIRY: 'Dairy',
-  LOCAL_MEAT: 'Local Meat & Eggs',
-  LOCAL_FISH: 'Local Fish',
-  LOCAL_PROCESSED: 'Local Processed Foods',
-  ORGANIC: 'Organic Specials'
+  DESI_NONVEG: 'Desi Non-Veg',
+  LOCAL_PROCESSED: 'Local Processed Foods'
 };
 
 // Mock farmers data
@@ -116,7 +114,7 @@ function fetchProductsFromDataJson() {
           productCategory = PRODUCT_CATEGORIES.LOCAL_PROCESSED;
           break;
         case 'nonveg_local':
-          productCategory = item.subcategory === 'eggs' ? PRODUCT_CATEGORIES.LOCAL_MEAT : PRODUCT_CATEGORIES.LOCAL_FISH;
+          productCategory = PRODUCT_CATEGORIES.DESI_NONVEG;
           break;
         case 'herb':
           productCategory = PRODUCT_CATEGORIES.VEGETABLES;

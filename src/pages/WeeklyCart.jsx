@@ -1,20 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { apiService as api } from '../services/api';
 
 const WeeklyCart = () => {
   const { cartItems, updateQuantity, removeItem, clearCart, getCartTotal } = useCart();
+  const { user } = useAuth();
   const [deliveryDay, setDeliveryDay] = useState('Friday');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showAddressPrompt, setShowAddressPrompt] = useState(false);
+  const [hasAddress, setHasAddress] = useState(false);
   const navigate = useNavigate();
 
   const deliveryDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+  useEffect(() => {
+    // Check if user has address
+    const checkAddress = async () => {
+      try {
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+        
+        // Check if user has added address in profile
+        const hasAddr = profileData.addresses && profileData.addresses.length > 0;
+        setHasAddress(hasAddr);
+      } catch (error) {
+        console.error('Error checking address:', error);
+        setHasAddress(false);
+      }
+    };
+
+    checkAddress();
+  }, []);
+
   const handleSubmitRequest = async () => {
     if (cartItems.length === 0) {
       setError('Your cart is empty!');
+      return;
+    }
+
+    // Check if user has address before submitting
+    const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+    const hasAddr = profileData.addresses && profileData.addresses.length > 0;
+
+    if (!hasAddr) {
+      setShowAddressPrompt(true);
+      setError('Please add a delivery address before placing your order.');
       return;
     }
 
@@ -104,8 +137,16 @@ const WeeklyCart = () => {
         <p className="text-sm text-gray-600 mb-6">Review and customize your weekly basket</p>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg mb-4 text-sm">
-            {error}
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+            <p className="text-sm font-medium">{error}</p>
+            {showAddressPrompt && (
+              <button
+                onClick={() => navigate('/app/profile')}
+                className="mt-2 text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Add Delivery Address
+              </button>
+            )}
           </div>
         )}
 

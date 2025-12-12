@@ -46,10 +46,8 @@ const HomeDashboard = () => {
     { name: "Fruits", icon: "🍎", route: "/app/category/Fruits" },
     { name: "Grains", icon: "🌾", route: "/app/category/Grains" },
     { name: "Dairy", icon: "🥛", route: "/app/category/Dairy" },
-    { name: "Local Meat", icon: "🍗", route: "/app/category/Local Meat & Eggs" },
-    { name: "Local Fish", icon: "🐟", route: "/app/category/Local Fish" },
+    { name: "Desi Non-Veg", icon: "🍖", route: "/app/category/Desi Non-Veg" },
     { name: "Local Processed", icon: "🧈", route: "/app/category/Local Processed Foods" },
-    { name: "Organic", icon: "🌱", route: "/app/category/Organic Specials" },
   ];
 
   const handleSearch = (e) => {
