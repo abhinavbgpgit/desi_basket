@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
+import desiLogoInverted from '../assets/desi_logo_inverted.png';
+import foodsImage from '../assets/foods.png';
 
 const Auth = () => {
   const [step, setStep] = useState('phone');
@@ -134,7 +136,7 @@ const Auth = () => {
           {/* Left side - Visual content */}
           <div className="lg:w-1/2 bg-gradient-to-br from-green-600 to-emerald-700 p-8 lg:p-12 flex flex-col justify-center items-center text-white">
            
-              <img src="/src/assets/desi_logo_inverted.png" alt="Desi Basket Logo" className="w-72  h-20" />
+              <img src={desiLogoInverted} alt="Desi Basket Logo" className="w-72  h-20" />
            
             <h1 className="text-3xl lg:text-4xl font-bold mb-4 text-center">Welcome to Desi Basket</h1>
             <p className="text-center text-green-100 mb-8 max-w-sm">
@@ -144,7 +146,7 @@ const Auth = () => {
             {/* Sab Hatke Foods Image */}
             <div className="relative w-72  h-64 rounded-2xl overflow-hidden">
               <img
-                src="/src/assets/foods.png"
+                src={foodsImage}
                 alt="Sab Hatke Foods"
                 className="w-72 h-full "
               />
