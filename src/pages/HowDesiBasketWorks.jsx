@@ -2,309 +2,503 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import desiLogo from '../assets/desi_logo.png';
-
+import order_with_ease from '../assets/order_with_ease.png';
 const HowDesiBasketWorks = () => {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <img src={desiLogo} alt="Desi Basket" className="w-40" />
-          </div>
+      <header className="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-green-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <Link to="/" className="flex items-center space-x-2 group">
+            <img src={desiLogo} alt="Desi Basket" className="w-40 transition-transform group-hover:scale-105" />
+          </Link>
           <div className="flex items-center space-x-4">
-            <Link to="/auth" className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-              Login
+            <Link 
+              to="/auth" 
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              Get Started
             </Link>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-green-800 mb-4">How Desi Basket Works</h1>
-          <p className="text-lg text-green-700 max-w-3xl mx-auto">
-            Discover our simple 3-step process that connects you directly with farmers for fresh, natural produce
-          </p>
-        </motion.div>
-
-        {/* Step 1: Browse Products */}
-        <section className="mb-16">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="bg-white rounded-xl p-8 shadow-lg"
-            >
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-green-800 mb-4 text-center">Step 1: Browse Our Products</h2>
-              <p className="text-green-600 mb-4">
-                Explore our wide range of fresh, natural produce from certified farmers across India. We offer:
-              </p>
-              <ul className="text-green-600 space-y-2">
-                <li>• Seasonal vegetables and fruits</li>
-                <li>• Fresh dairy products like milk, curd, and paneer</li>
-                <li>• Organic grains and pulses</li>
-                <li>• Natural spices and herbs</li>
-                <li>• Farm-fresh eggs</li>
-              </ul>
-              <p className="text-green-600 mt-4">
-                Each product comes with detailed information about the farmer, farming practices, and nutritional benefits.
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="bg-green-50 rounded-xl p-6"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="Fresh produce browsing"
-                className="w-full h-64 object-cover rounded-lg"
-              />
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Step 2: Place Your Order */}
-        <section className="mb-16">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-green-50 rounded-xl p-6 order-2 md:order-1"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="Order placement"
-                className="w-full h-64 object-cover rounded-lg"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white rounded-xl p-8 shadow-lg order-1 md:order-2"
-            >
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-green-800 mb-4 text-center">Step 2: Place Your Order</h2>
-              <p className="text-green-600 mb-4">
-                Our easy ordering process makes it simple to get fresh produce delivered to your doorstep:
-              </p>
-              <ul className="text-green-600 space-y-2">
-                <li>• Add items to your cart with just one click</li>
-                <li>• Choose your preferred delivery date and time slot</li>
-                <li>• Select from multiple payment options (online or cash on delivery)</li>
-                <li>• Get real-time order tracking and updates</li>
-                <li>• Receive confirmation with farmer details and expected delivery time</li>
-              </ul>
-              <p className="text-green-600 mt-4">
-                You can also set up recurring orders for your weekly grocery needs.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Step 3: Fresh Delivery */}
-        <section className="mb-16">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-white rounded-xl p-8 shadow-lg"
-            >
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-green-800 mb-4 text-center">Step 3: Fresh Delivery</h2>
-              <p className="text-green-600 mb-4">
-                Enjoy the freshest produce delivered right to your doorstep:
-              </p>
-              <ul className="text-green-600 space-y-2">
-                <li>• Same-day or next-day delivery options</li>
-                <li>• Temperature-controlled packaging to maintain freshness</li>
-                <li>• Contactless delivery for your safety</li>
-                <li>• Real-time delivery tracking with live updates</li>
-                <li>• Quality check upon delivery - we guarantee freshness</li>
-                <li>• Easy returns or replacements if you're not satisfied</li>
-              </ul>
-              <p className="text-green-600 mt-4">
-                Our delivery partners are trained to handle fresh produce with care, ensuring you receive the highest quality products.
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-green-50 rounded-xl p-6"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="Fresh delivery"
-                className="w-full h-64 object-cover rounded-lg"
-              />
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Our Commitment Section */}
-        <section className="bg-white rounded-xl p-8 shadow-lg mb-16">
-          <h2 className="text-2xl font-bold text-green-800 text-center mb-6">Our Commitment to Quality</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="text-center p-4"
-            >
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="font-semibold text-green-800 mb-2">100% Natural</h3>
-              <p className="text-green-600 text-sm">All products are chemical-free and naturally grown</p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="text-center p-4"
-            >
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="font-semibold text-green-800 mb-2">Direct from Farmers</h3>
-              <p className="text-green-600 text-sm">No middlemen, fresh from farm to your table</p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="text-center p-4"
-            >
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <h3 className="font-semibold text-green-800 mb-2">Fair Pricing</h3>
-              <p className="text-green-600 text-sm">Better prices for you, fair income for farmers</p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl font-bold text-green-800 mb-4"
-          >
-            Ready to Experience Fresh, Natural Produce?
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-green-700 mb-8 max-w-2xl mx-auto"
-          >
-            Join thousands of satisfied customers who enjoy farm-fresh goodness delivered right to their doorstep.
-          </motion.p>
-
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-20 lg:py-28">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-100/50 via-emerald-100/30 to-teal-100/50"></div>
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-green-400 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-10 w-72 h-72 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-teal-400 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-2000"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.8 }}
           >
-            <Link
-              to="/auth"
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-block mr-4"
-            >
-              Explore Your Food
-            </Link>
-            <Link
-              to="/"
-              className="border border-green-600 text-green-600 hover:bg-green-50 px-8 py-3 rounded-lg font-semibold transition-colors inline-block"
-            >
-              Back to Home
-            </Link>
+            <span className="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-6">
+              🌱 Farm to Table in 3 Simple Steps
+            </span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-teal-600 mb-6 leading-tight">
+              How Desi Basket Works
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-8 leading-relaxed">
+              Experience the freshest produce delivered straight from local farmers to your doorstep
+            </p>
           </motion.div>
-        </section>
-      </main>
+
+          {/* Stats Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-16"
+          >
+            {[
+              { number: '10K+', label: 'Happy Customers' },
+              { number: '500+', label: 'Local Farmers' },
+              { number: '100%', label: 'Natural Products' },
+              { number: '24/7', label: 'Support Available' }
+            ].map((stat, index) => (
+              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-gray-600 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Timeline Steps Section */}
+      <section className="py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Step 1 */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative mb-32"
+          >
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="relative">
+                <div className="absolute -top-8 -left-8 w-24 h-24 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-2xl">
+                  1
+                </div>
+                <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 border border-green-100">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl mb-6">
+                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+                    Browse & Discover
+                  </h2>
+                  <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                    Explore our curated selection of farm-fresh produce, dairy, and organic products. Each item comes with detailed farmer profiles and farming practices.
+                  </p>
+                  <div className="space-y-3">
+                    {[
+                      '🥬 Seasonal vegetables & fruits',
+                      '🥛 Fresh dairy products',
+                      '🌾 Organic grains & pulses',
+                      '🌶️ Natural spices & herbs',
+                      '🥚 Farm-fresh eggs'
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center space-x-3 text-gray-700">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="text-base">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-200 to-emerald-200 rounded-3xl transform rotate-3"></div>
+                <img
+                  src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                  alt="Fresh produce browsing"
+                  className="relative rounded-3xl shadow-2xl w-full h-96 object-cover transform -rotate-1 hover:rotate-0 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Step 2 */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative mb-32"
+          >
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="relative order-2 lg:order-1">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-200 to-teal-200 rounded-3xl transform -rotate-3"></div>
+                <img
+                  src={order_with_ease}
+                  alt="Order placement"
+                  className="relative rounded-3xl shadow-2xl w-full h-96 object-cover transform rotate-1 hover:rotate-0 transition-transform duration-500"
+                />
+              </div>
+              <div className="relative order-1 lg:order-2">
+                <div className="absolute -top-8 -right-8 w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-2xl">
+                  2
+                </div>
+                <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 border border-emerald-100">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl mb-6">
+                    <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+                    Order with Ease
+                  </h2>
+                  <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                    Simple, secure checkout with flexible delivery options. Choose your preferred time slot and payment method.
+                  </p>
+                  <div className="space-y-3">
+                    {[
+                      '🛒 One-click add to cart',
+                      '📅 Flexible delivery scheduling',
+                      '💳 Multiple payment options',
+                      '📱 Real-time order tracking',
+                      '🔄 Easy recurring orders'
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center space-x-3 text-gray-700">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                        <span className="text-base">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Step 3 */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="relative">
+                <div className="absolute -top-8 -left-8 w-24 h-24 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-2xl">
+                  3
+                </div>
+                <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 border border-teal-100">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl mb-6">
+                    <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
+                  </div>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+                    Fresh Delivery
+                  </h2>
+                  <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                    Receive farm-fresh produce at your doorstep with our temperature-controlled delivery system ensuring maximum freshness.
+                  </p>
+                  <div className="space-y-3">
+                    {[
+                      '🚚 Same-day delivery available',
+                      '❄️ Temperature-controlled packaging',
+                      '🤝 Contactless delivery option',
+                      '📍 Live delivery tracking',
+                      '✅ 100% freshness guarantee'
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center space-x-3 text-gray-700">
+                        <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                        <span className="text-base">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-200 to-cyan-200 rounded-3xl transform rotate-3"></div>
+                <img
+                  src="https://images.lifestyleasia.com/wp-content/uploads/sites/7/2020/03/12112420/GettyImages-1128687123-e1584000464716.jpg"
+                  alt="Fresh delivery"
+                  className="relative rounded-3xl shadow-2xl w-full h-96 object-cover transform -rotate-1 hover:rotate-0 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-20 bg-gradient-to-br from-green-600 to-emerald-700 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Why Choose Desi Basket?
+            </h2>
+            <p className="text-xl text-green-100 max-w-2xl mx-auto">
+              We're committed to bringing you the best farm-fresh experience
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+                title: '100% Natural',
+                description: 'All products are chemical-free and naturally grown by certified farmers'
+              },
+              {
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ),
+                title: 'Direct from Farmers',
+                description: 'No middlemen means fresher produce and better prices for everyone'
+              },
+              {
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+                title: 'Fair Pricing',
+                description: 'Competitive prices for you, fair income for our farming partners'
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -10 }}
+                className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 text-center hover:bg-white/20 transition-all duration-300 border border-white/20"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-6 text-white">
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">{feature.title}</h3>
+                <p className="text-green-100 leading-relaxed">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              What Our Customers Say
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Join thousands of happy customers enjoying farm-fresh goodness
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Priya Sharma',
+                role: 'Home Chef',
+                image: 'https://i.pravatar.cc/150?img=1',
+                text: 'The quality of vegetables is outstanding! I can taste the difference in every meal I prepare.'
+              },
+              {
+                name: 'Rajesh Kumar',
+                role: 'Fitness Enthusiast',
+                image: 'https://i.pravatar.cc/150?img=12',
+                text: 'Finally found a reliable source for organic produce. The delivery is always on time!'
+              },
+              {
+                name: 'Anita Desai',
+                role: 'Working Professional',
+                image: 'https://i.pravatar.cc/150?img=5',
+                text: 'Love the convenience and freshness. Supporting local farmers while eating healthy!'
+              }
+            ].map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+              >
+                <div className="flex items-center mb-6">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-16 h-16 rounded-full object-cover mr-4 border-4 border-green-100"
+                  />
+                  <div>
+                    <h4 className="font-bold text-gray-800">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  </div>
+                </div>
+                <div className="flex mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-600 italic leading-relaxed">"{testimonial.text}"</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Experience Farm-Fresh Goodness?
+            </h2>
+            <p className="text-xl text-green-100 mb-10 leading-relaxed">
+              Join our community today and enjoy the freshest produce delivered straight to your doorstep
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/auth"
+                className="bg-white text-green-600 px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 inline-block"
+              >
+                Start Shopping Now
+              </Link>
+              <Link
+                to="/"
+                className="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all duration-300 inline-block"
+              >
+                Learn More
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="bg-green-800 text-white py-8 mt-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
+      <footer className="bg-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <img src={desiLogo} alt="Desi Basket" className="w-12 h-12 rounded-full" />
-              </div>
-              <p className="text-green-200 text-sm">
+              <img src={desiLogo} alt="Desi Basket" className="w-32 mb-4 brightness-0 invert" />
+              <p className="text-gray-400 leading-relaxed">
                 Connecting farmers directly with consumers for fresh, natural produce.
               </p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/" className="text-green-200 hover:text-white">Home</Link></li>
-                <li><Link to="/auth" className="text-green-200 hover:text-white">Login</Link></li>
-                <li><Link to="#" className="text-green-200 hover:text-white">About Us</Link></li>
-                <li><Link to="#" className="text-green-200 hover:text-white">Contact</Link></li>
+              <h4 className="font-bold text-lg mb-4 text-green-400">Quick Links</h4>
+              <ul className="space-y-3">
+                <li><Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link></li>
+                <li><Link to="/auth" className="text-gray-400 hover:text-white transition-colors">Login</Link></li>
+                <li><Link to="#" className="text-gray-400 hover:text-white transition-colors">About Us</Link></li>
+                <li><Link to="#" className="text-gray-400 hover:text-white transition-colors">Contact</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Contact Us</h4>
-              <ul className="space-y-2 text-sm">
-                <li className="text-green-200">support@desibasket.com</li>
-                <li className="text-green-200">+91 98765 43210</li>
-                <li className="text-green-200">Mon-Sat: 8AM - 8PM</li>
+              <h4 className="font-bold text-lg mb-4 text-green-400">Contact Us</h4>
+              <ul className="space-y-3 text-gray-400">
+                <li className="flex items-center space-x-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span>support@desibasket.com</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span>+91 98765 43210</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>Mon-Sat: 8AM - 8PM</span>
+                </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Follow Us</h4>
-              <div className="flex space-x-3">
-                <a href="#" className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center hover:bg-green-600">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                </a>
-                <a href="#" className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center hover:bg-green-600">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
-                </a>
-                <a href="#" className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center hover:bg-green-600">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.347-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/></svg>
-                </a>
-                <a href="#" className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center hover:bg-green-600">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.347-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/></svg>
-                </a>
+              <h4 className="font-bold text-lg mb-4 text-green-400">Follow Us</h4>
+              <div className="flex space-x-4">
+                {[
+                  { icon: 'M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z' },
+                  { icon: 'M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z' },
+                  { icon: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z' }
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href="#"
+                    className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d={social.icon} />
+                    </svg>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="border-t border-green-700 mt-8 pt-6 text-center text-sm text-green-300">
-            <p>© {new Date().getFullYear()} Desi Basket. All rights reserved.</p>
+          <div className="border-t border-gray-800 pt-8 text-center">
+            <p className="text-gray-400">
+              © {new Date().getFullYear()} Desi Basket. All rights reserved. Made with 💚 for farmers and consumers.
+            </p>
           </div>
         </div>
       </footer>

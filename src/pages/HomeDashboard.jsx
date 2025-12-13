@@ -77,9 +77,9 @@ const HomeDashboard = () => {
 
         <div className="p-4 mt-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="flex gap-4 overflow-x-auto pb-2">
             {[...Array(6)].map((_, index) => (
-              <div key={index} className="bg-white rounded-xl p-4 text-center shadow-sm animate-pulse">
+              <div key={index} className="bg-white rounded-xl p-4 text-center shadow-sm animate-pulse flex-shrink-0 w-24">
                 <div className="text-3xl mb-2 bg-gray-200 rounded-full w-12 h-12 mx-auto"></div>
                 <div className="text-sm font-medium text-gray-700 bg-gray-200 rounded h-4"></div>
               </div>
@@ -166,12 +166,12 @@ const HomeDashboard = () => {
       {/* Categories */}
       <div className="p-4">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="flex gap-4 overflow-x-auto pb-2">
           {categories.map((category) => (
             <Link
               key={category.name}
               to={category.route}
-              className="bg-white rounded-xl p-4 text-center shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-xl p-4 text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-24"
             >
               <div className="text-3xl mb-2">{category.icon}</div>
               <div className="text-sm font-medium text-gray-700">{category.name}</div>
@@ -252,10 +252,10 @@ const HomeDashboard = () => {
             </svg>
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Display first 5 farmers using FarmerCard component */}
           {farmersData.farmers.slice(0, 5).map((farmer) => (
-            <FarmerCard key={farmer.id} farmer={farmer} compact={true} />
+            <FarmerCard key={farmer.id} farmer={farmer} />
           ))}
 
           {/* Browse All Farmers Card */}

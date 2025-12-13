@@ -7,6 +7,7 @@ export const CartProvider = ({ children }) => {
     const savedCart = localStorage.getItem('cartItems');
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const [cartChanged, setCartChanged] = useState(false);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
@@ -26,6 +27,7 @@ export const CartProvider = ({ children }) => {
       }
       return [...prevItems, item];
     });
+    setCartChanged(true);
   };
 
   const updateQuantity = (itemId, newQuantity) => {
@@ -39,10 +41,12 @@ export const CartProvider = ({ children }) => {
         item.id === itemId ? { ...item, quantity: newQuantity } : item
       )
     );
+    setCartChanged(true);
   };
 
   const removeItem = (itemId) => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+    setCartChanged(true);
   };
 
   const clearCart = () => {
@@ -65,7 +69,9 @@ export const CartProvider = ({ children }) => {
       removeItem,
       clearCart,
       getCartTotal,
-      getItemCount
+      getItemCount,
+      cartChanged,
+      setCartChanged
     }}>
       {children}
     </CartContext.Provider>

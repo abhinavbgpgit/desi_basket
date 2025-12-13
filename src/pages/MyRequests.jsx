@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { apiService as api } from '../services/api';
+import requestsData from '../data/requests.json';
 
 const MyRequests = () => {
   const [activeTab, setActiveTab] = useState('active');
@@ -15,49 +16,9 @@ const MyRequests = () => {
     const fetchRequests = async () => {
       try {
         setLoading(true);
-        // For demo purposes, we'll use mock data
+        // Load data from requests.json
         // In a real app, you would call: api.getRequestHistory()
-        const mockRequests = {
-          active: {
-            id: 'req-123',
-            status: 'pending',
-            items: [
-              { id: '1', name: 'Organic Tomatoes', quantity: 2, price: 50, image: '/tomato.jpg' },
-              { id: '3', name: 'Brown Rice', quantity: 1, price: 80, image: '/rice.jpg' }
-            ],
-            totalAmount: 180,
-            deliveryDay: 'Friday',
-            deliveryDate: '2025-12-15',
-            createdAt: '2025-12-10'
-          },
-          past: [
-            {
-              id: 'req-122',
-              status: 'delivered',
-              items: [
-                { id: '2', name: 'Fresh Cow Milk', quantity: 2, price: 60, image: '/milk.jpg' },
-                { id: '1', name: 'Organic Tomatoes', quantity: 1, price: 50, image: '/tomato.jpg' }
-              ],
-              totalAmount: 170,
-              deliveryDay: 'Wednesday',
-              deliveryDate: '2025-12-07',
-              createdAt: '2025-12-03'
-            },
-            {
-              id: 'req-121',
-              status: 'delivered',
-              items: [
-                { id: '3', name: 'Brown Rice', quantity: 2, price: 80, image: '/rice.jpg' }
-              ],
-              totalAmount: 160,
-              deliveryDay: 'Monday',
-              deliveryDate: '2025-11-28',
-              createdAt: '2025-11-25'
-            }
-          ]
-        };
-
-        setRequests(mockRequests);
+        setRequests(requestsData);
       } catch (error) {
         console.error('Failed to load requests:', error);
         setError('Failed to load requests. Please try again.');

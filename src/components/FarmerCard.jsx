@@ -2,15 +2,48 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+// Import all farmer images
+import farmer1 from '../assets/farmers/ramesh_kumar.png';
+import farmer2 from '../assets/farmers/farmer2.jpg';
+import farmer3 from '../assets/farmers/farmer3.jpg';
+import farmer4 from '../assets/farmers/farmer4.jpg';
+import farmer5 from '../assets/farmers/farmer5.png';
+import farmer6 from '../assets/farmers/farmer6.png';
+import farmer7 from '../assets/farmers/farmer7.png';
+import farmer8 from '../assets/farmers/farmer8.png';
+import farmer9 from '../assets/farmers/farmer9.png';
+import farmer10 from '../assets/farmers/farmer10.png';
+import farmer11 from '../assets/farmers/farmer11.png';
+import farmer12 from '../assets/farmers/farmer12.png';
+import farmer13 from '../assets/farmers/farmer13.png';
+
 const FarmerCard = ({ farmer, compact = false }) => {
-  // Handle image path - support both public and src/assets paths
+  // Map image references to imported images
+  const imageMap = {
+    'farmer1.jpg': farmer1,
+    'farmer2.jpg': farmer2,
+    'farmer3.jpg': farmer3,
+    'farmer4.jpg': farmer4,
+    'farmer5.png': farmer5,
+    'farmer6.png': farmer6,
+    'farmer7.png': farmer7,
+    'farmer8.png': farmer8,
+    'farmer9.png': farmer9,
+    'farmer10.png': farmer10,
+    'farmer11.png': farmer11,
+    'farmer12.png': farmer12,
+    'farmer13.png': farmer13,
+  };
+
+  // Handle image path - get the imported image or fallback
   const getImagePath = (imagePath) => {
     if (!imagePath) return '/farmer-placeholder.jpg';
-    // If path starts with /src/assets, convert to relative import path
-    if (imagePath.startsWith('/src/assets/')) {
-      return imagePath.replace('/src/assets/', '/src/assets/');
-    }
-    return imagePath;
+    
+    // Extract filename from path (e.g., "farmer1.jpg" from "/src/assets/farmers/farmer1.jpg")
+    const filename = imagePath.split('/').pop();
+    
+    // Return the imported image if it exists, otherwise use fallback
+    return imageMap[filename] || '/farmer-placeholder.jpg';
   };
 
   if (compact) {

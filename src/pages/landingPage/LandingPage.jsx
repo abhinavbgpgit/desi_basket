@@ -8,6 +8,7 @@ import desi_logo_inverted from '../../assets/desi_logo_inverted.png';
 const LandingPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = React.useState(false);
 
   React.useEffect(() => {
     // If user is already logged in, redirect to home dashboard
@@ -16,79 +17,328 @@ const LandingPage = () => {
     }
   }, [user, navigate]);
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <img src={desiLogo} alt="Desi Basket" className="w-40 " />
-          </div>
-          <div className="flex items-center space-x-4">
-            <Link to="/auth" className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-              Login
+      <header className={`bg-white/95 backdrop-blur-md shadow-sm fixed top-0 left-0 right-0 z-50 border-b border-green-100 transition-all duration-300 ${
+        isScrolled ? 'py-2' : 'py-4'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center space-x-2"
+          >
+            <img
+              src={desiLogo}
+              alt="Desi Basket"
+              className={`transition-all duration-300 ${isScrolled ? 'w-32' : 'w-40'}`}
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center space-x-4"
+          >
+            <Link
+              to="/auth"
+              className={`bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+                isScrolled ? 'px-5 py-2 text-sm' : 'px-6 py-2.5 text-base'
+              }`}
+            >
+              Get Started
             </Link>
-          </div>
+          </motion.div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      {/* Hero Section - 100vh minus header */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        {/* Animated Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 animate-gradient"></div>
+        
+        {/* Geometric Shapes Background */}
+        <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-green-800 leading-tight">
-              Fresh Food, Direct from Certified Farmers
-            </h1>
-            <p className="text-lg text-green-700 leading-relaxed">
-              Experience the freshness of farm-to-table produce. Our platform connects you directly with certified farmers,
-              ensuring you get the purest, healthiest food while supporting local agriculture.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link
-                to="/auth"
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors text-center"
-              >
-                Explore Your Food
-              </Link>
-              <Link
-                to="/how-desi-basket-works"
-                className="border border-green-600 text-green-600 hover:bg-green-50 px-8 py-3 rounded-lg font-semibold transition-colors text-center"
-              >
-                How It Works
-              </Link>
-            </div>
-          </motion.div>
-
+            animate={{
+              rotate: 360,
+              scale: [1, 1.2, 1]
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-green-200/30 to-emerald-300/30 rounded-full blur-3xl"
+          ></motion.div>
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="bg-gradient-to-br from-green-100 to-emerald-200 rounded-3xl p-8 shadow-2xl">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white rounded-xl p-4 shadow-lg">
-                  <img src="https://cdn.britannica.com/17/196817-159-9E487F15/vegetables.jpg" alt="Fresh Vegetables" className="w-full h-24 object-cover rounded-lg mb-2" />
-                  <p className="font-medium text-green-800">Fresh Vegetables</p>
+            animate={{
+              rotate: -360,
+              scale: [1, 1.3, 1]
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-teal-200/30 to-green-300/30 rounded-full blur-3xl"
+          ></motion.div>
+          <motion.div
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 20, 0]
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-br from-emerald-200/20 to-green-200/20 rounded-full blur-2xl"
+          ></motion.div>
+        </div>
+
+        {/* Main Hero Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+              {/* Trust Badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-green-100"
+              >
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span className="text-sm font-medium text-green-800">🌾 Trusted by 10,000+ Families</span>
+              </motion.div>
+
+              {/* Main Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight"
+              >
+                <span className="block text-gray-900">Natural Food,</span>
+                <span className="block gradient-text mt-2">Direct from Farm</span>
+              </motion.h1>
+
+              {/* Subheadline */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-xl text-gray-600 leading-relaxed max-w-xl"
+              >
+                Experience the <span className="font-semibold text-green-700">purest, healthiest food</span> delivered straight from certified farmers to your doorstep. Support local agriculture while enjoying farm-fresh produce.
+              </motion.p>
+
+              {/* Stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="flex flex-wrap gap-8 pt-4"
+              >
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600">500+</div>
+                  <div className="text-sm text-gray-600">Certified Farmers</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 shadow-lg">
-                  <img src="https://media.licdn.com/dms/image/v2/C4E1BAQEHYo5_dBogWQ/company-background_10000/company-background_10000/0/1642089902290/naturalfruitsind_cover?e=2147483647&v=beta&t=OzMi4wUj_2KUcWbnKu65dzKZKpLvK3pycw0eAj0jYY8" alt="Natural Fruits" className="w-full h-24 object-cover rounded-lg mb-2" />
-                  <p className="font-medium text-green-800">Natural Fruits</p>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600">100%</div>
+                  <div className="text-sm text-gray-600">Natural Products</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 shadow-lg col-span-2">
-                  <img src="https://shawellness.com/shamagazine/wp-content/uploads/2023/08/iStock-1276446367_-scaled.jpg" alt="Dairy Products" className="w-full h-20 object-cover rounded-lg mb-2" />
-                  <p className="font-medium text-green-800">Dairy Products</p>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600">24hrs</div>
+                  <div className="text-sm text-gray-600">Fresh Delivery</div>
+                </div>
+              </motion.div>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 pt-4"
+              >
+                <Link
+                  to="/auth"
+                  className="group relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-2xl hover:shadow-green-500/50 transform hover:scale-105 text-center overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    Start Shopping Now
+                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
+                  <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                </Link>
+                <Link
+                  to="/how-desi-basket-works"
+                  className="group glass-effect hover:bg-white/20 text-green-700 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-center flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  How It Works
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Content - Visual Elements */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative"
+            >
+              {/* Main Card with Glassmorphism */}
+              <div className="relative">
+                {/* Floating Elements */}
+                <motion.div
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-8 -left-8 z-20"
+                >
+                  <div className="glass-effect bg-white/40 rounded-2xl p-4 shadow-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="font-bold text-gray-900">Certified</div>
+                        <div className="text-sm text-gray-600">100% Organic</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: [0, 15, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute -bottom-6 -right-6 z-20"
+                >
+                  <div className="glass-effect bg-white/40 rounded-2xl p-4 shadow-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="font-bold text-gray-900">Fast</div>
+                        <div className="text-sm text-gray-600">Same Day</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Main Product Grid */}
+                <div className="relative bg-gradient-to-br from-white/60 to-white/40 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/50">
+                  <div className="grid grid-cols-2 gap-6">
+                    <motion.div
+                      whileHover={{ scale: 1.05, rotate: 2 }}
+                      className="bg-white rounded-2xl p-5 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group"
+                    >
+                      <div className="relative overflow-hidden rounded-xl mb-3">
+                        <img
+                          src="https://cdn.britannica.com/17/196817-159-9E487F15/vegetables.jpg"
+                          alt="Fresh Vegetables"
+                          className="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-green-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      </div>
+                      <p className="font-bold text-gray-900">Fresh Vegetables</p>
+                      <p className="text-sm text-green-600">Farm Fresh Daily</p>
+                    </motion.div>
+
+                    <motion.div
+                      whileHover={{ scale: 1.05, rotate: -2 }}
+                      className="bg-white rounded-2xl p-5 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group"
+                    >
+                      <div className="relative overflow-hidden rounded-xl mb-3">
+                        <img
+                          src="https://media.licdn.com/dms/image/v2/C4E1BAQEHYo5_dBogWQ/company-background_10000/company-background_10000/0/1642089902290/naturalfruitsind_cover?e=2147483647&v=beta&t=OzMi4wUj_2KUcWbnKu65dzKZKpLvK3pycw0eAj0jYY8"
+                          alt="Natural Fruits"
+                          className="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      </div>
+                      <p className="font-bold text-gray-900">Natural Fruits</p>
+                      <p className="text-sm text-green-600">Seasonal Picks</p>
+                    </motion.div>
+
+                    <motion.div
+                      whileHover={{ scale: 1.05, rotate: -2 }}
+                      className="bg-white rounded-2xl p-5 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group col-span-2"
+                    >
+                      <div className="relative overflow-hidden rounded-xl mb-3">
+                        <img
+                          src="https://shawellness.com/shamagazine/wp-content/uploads/2023/08/iStock-1276446367_-scaled.jpg"
+                          alt="Dairy Products"
+                          className="w-full h-28 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-teal-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      </div>
+                      <p className="font-bold text-gray-900">Dairy Products</p>
+                      <p className="text-sm text-green-600">Pure & Natural</p>
+                    </motion.div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        >
+          {/* <div className="flex flex-col items-center gap-2 cursor-pointer group">
+            <span className="text-sm text-gray-600 font-medium">Scroll to explore</span>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-6 h-10 border-2 border-green-600 rounded-full flex items-start justify-center p-2"
+            >
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="w-1.5 h-1.5 bg-green-600 rounded-full"
+              ></motion.div>
+            </motion.div>
+          </div> */}
+        </motion.div>
       </section>
 
       {/* How It Works Section */}

@@ -1,42 +1,164 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { ShoppingCart, User, Home, Users, ClipboardList, LogOut, UserCircle, Package } from 'lucide-react';
 import desiLogo from '../assets/desi_logo.png';
 
 const MainLayout = () => {
-  const { getItemCount } = useCart();
+  const { getItemCount, cartChanged, setCartChanged } = useCart();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [cartAnimation, setCartAnimation] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  const currentItemCount = getItemCount();
+
+  // Scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Cart animation effect - triggers only when cart changes
+  useEffect(() => {
+    if (cartChanged) {
+      setCartAnimation(true);
+      const timer = setTimeout(() => {
+        setCartAnimation(false);
+        setCartChanged(false);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [cartChanged, setCartChanged]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    // Add logout logic here
+    setShowProfileDropdown(false);
+    navigate('/');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <header
+        className={`bg-white shadow-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'py-2' : 'py-3'
+        }`}
+      >
+        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/app" className="flex items-center space-x-2">
-              <img src={desiLogo} alt="Farm Fresh" className="w-36" />
-              
+              <img
+                src={desiLogo}
+                alt="Farm Fresh"
+                className={`transition-all duration-300 ${
+                  isScrolled ? 'w-24' : 'w-36'
+                }`}
+              />
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <Link to="/app/cart" className="relative">
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h15M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
-              </svg>
-              {getItemCount() > 0 && (
-                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {getItemCount()}
+            {/* Cart Icon with Animation */}
+            <Link to="/app/cart" className="relative group">
+              <div className={`transition-all duration-300 ${cartAnimation ? 'animate-bounce' : ''}`}>
+                {currentItemCount > 0 ? (
+                  <ShoppingCart
+                    className={`text-gray-700 group-hover:text-green-600 transition-all duration-300 ${
+                      isScrolled ? 'w-5 h-5' : 'w-6 h-6'
+                    }`}
+                    fill="currentColor"
+                  />
+                ) : (
+                  <ShoppingCart
+                    className={`text-gray-700 group-hover:text-green-600 transition-all duration-300 ${
+                      isScrolled ? 'w-5 h-5' : 'w-6 h-6'
+                    }`}
+                  />
+                )}
+              </div>
+              {currentItemCount > 0 && (
+                <span className={`absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold transition-all duration-300 ${
+                  cartAnimation ? 'scale-125' : 'scale-100'
+                }`}>
+                  {currentItemCount}
                 </span>
               )}
             </Link>
-            <Link to="/app/profile">
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </Link>
+
+            {/* Profile Icon with Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                className="focus:outline-none group"
+              >
+                <User
+                  className={`text-gray-700 group-hover:text-green-600 transition-all duration-300 ${
+                    isScrolled ? 'w-5 h-5' : 'w-6 h-6'
+                  }`}
+                />
+              </button>
+
+              {/* Dropdown Menu */}
+              {showProfileDropdown && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-fadeIn">
+                  <Link
+                    to="/app/profile"
+                    onClick={() => setShowProfileDropdown(false)}
+                    className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  >
+                    <UserCircle className="w-5 h-5 text-gray-600 mr-3" />
+                    <span className="text-gray-700 font-medium">View Profile</span>
+                  </Link>
+                  
+                  <Link
+                    to="/app/requests"
+                    onClick={() => setShowProfileDropdown(false)}
+                    className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
+                  >
+                    <Package className="w-5 h-5 text-gray-600 mr-3" />
+                    <span className="text-gray-700 font-medium">Your Orders</span>
+                  </Link>
+
+                  <div className="border-t border-gray-200 my-2"></div>
+
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full px-4 py-3 hover:bg-red-50 transition-colors text-left"
+                  >
+                    <LogOut className="w-5 h-5 text-red-600 mr-3" />
+                    <span className="text-red-600 font-medium">Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
+
+      {/* Spacer to prevent content from going under fixed header */}
+      <div className={`transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}></div>
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 py-6">
@@ -44,43 +166,44 @@ const MainLayout = () => {
       </main>
 
       {/* Bottom Navigation for Mobile */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden z-40">
         <div className="flex justify-around py-3">
-          <Link to="/app" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span>Home</span>
+          <Link to="/app" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600 transition-colors">
+            <Home className="w-6 h-6" />
+            <span className="text-xs mt-1">Home</span>
           </Link>
-          <Link to="/app/farmers" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.273-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.273.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            <span>Farmers</span>
+          <Link to="/app/farmers" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600 transition-colors">
+            <Users className="w-6 h-6" />
+            <span className="text-xs mt-1">Farmers</span>
           </Link>
-          <Link to="/app/requests" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            <span>Requests</span>
+          <Link to="/app/requests" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600 transition-colors">
+            <ClipboardList className="w-6 h-6" />
+            <span className="text-xs mt-1">Requests</span>
           </Link>
-          <Link to="/app/cart" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600 relative">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h15M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
-            </svg>
-            <span>Cart</span>
-            {getItemCount() > 0 && (
-              <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                {getItemCount()}
+          <Link to="/app/cart" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600 relative transition-colors">
+            <div className={`${cartAnimation ? 'animate-bounce' : ''}`}>
+              {currentItemCount > 0 ? (
+                <ShoppingCart className="w-6 h-6" fill="currentColor" />
+              ) : (
+                <ShoppingCart className="w-6 h-6" />
+              )}
+            </div>
+            <span className="text-xs mt-1">Cart</span>
+            {currentItemCount > 0 && (
+              <span className={`absolute -top-1 right-2 bg-green-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-semibold ${
+                cartAnimation ? 'scale-125' : 'scale-100'
+              } transition-all duration-300`}>
+                {currentItemCount}
               </span>
             )}
           </Link>
-          <Link to="/app/profile" className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            <span>Profile</span>
-          </Link>
+          <button
+            onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+            className="flex flex-col items-center text-sm text-gray-600 hover:text-green-600 transition-colors"
+          >
+            <User className="w-6 h-6" />
+            <span className="text-xs mt-1">Profile</span>
+          </button>
         </div>
       </div>
     </div>
