@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import desiLogoInverted from '../assets/desi_logo_inverted.png';
 import foodsImage from '../assets/foods.png';
+import { auth } from '../config/firebase';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
 const Auth = () => {
   const [step, setStep] = useState('phone');
@@ -18,9 +20,27 @@ const Auth = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [confirmationResult, setConfirmationResult] = useState(null);
 
   const { sendOTP, login, completeProfile, setUser } = useAuth();
   const navigate = useNavigate();
+
+  // Initialize reCAPTCHA verifier
+  useEffect(() => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+        callback: (response) => {
+          // reCAPTCHA solved
+          console.log('reCAPTCHA verified');
+        },
+        'expired-callback': () => {
+          // Response expired. Ask user to solve reCAPTCHA again.
+          console.log('reCAPTCHA expired');
+        }
+      });
+    }
+  }, []);
 
   const handlePhoneSubmit = async (e) => {
     e.preventDefault();
@@ -34,11 +54,22 @@ const Auth = () => {
     }
 
     try {
-      // Bypass OTP sending - API not ready
-      console.log('Bypassing OTP sending for phone:', phone);
+      const phoneNumber = `+91${phone}`;
+      const appVerifier = window.recaptchaVerifier;
+      
+      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+      setConfirmationResult(confirmation);
       setStep('otp');
+      console.log('OTP sent successfully to:', phoneNumber);
     } catch (error) {
-      setError(error.message || 'Failed to send OTP');
+      console.error('Error sending OTP:', error);
+      setError(error.message || 'Failed to send OTP. Please try again.');
+      
+      // Reset reCAPTCHA on error
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
+      }
     } finally {
       setLoading(false);
     }
@@ -49,35 +80,79 @@ const Auth = () => {
     setLoading(true);
     setError('');
 
-    // Bypass OTP validation - accept any OTP
-    console.log('Bypassing OTP verification for phone:', phone, 'with OTP:', otp);
+    if (!confirmationResult) {
+      setError('Please request OTP first');
+      setLoading(false);
+      return;
+    }
 
     try {
-      // Bypass login API call - API not ready
-      console.log('Bypassing login API call');
+      // Verify OTP with Firebase
+      const result = await confirmationResult.confirm(otp);
+      const user = result.user;
+      
+      console.log('OTP verified successfully. User:', user.uid);
 
-      // Simulate successful login with mock user data
-      const mockUser = {
+      // Get Firebase ID token
+      const idToken = await user.getIdToken();
+
+      // Create user data
+      const userData = {
         phone: phone,
-        profileCompleted: true, // Skip profile completion
+        uid: user.uid,
+        profileCompleted: true,
         name: '',
         email: '',
-        hasAddress: false // Track if user has added address
+        hasAddress: false
       };
 
-      // Store mock token and user data
-      localStorage.setItem('token', 'mock-token-' + phone);
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      // Store token and user data
+      localStorage.setItem('token', idToken);
+      localStorage.setItem('user', JSON.stringify(userData));
 
-      // CRITICAL: Update AuthContext state to prevent redirect loop
+      // Update AuthContext state
       if (setUser) {
-        setUser(mockUser);
+        setUser(userData);
       }
 
-      // Navigate directly to app
+      // Navigate to app
       navigate('/app');
     } catch (error) {
-      setError(error.message || 'Invalid OTP');
+      console.error('Error verifying OTP:', error);
+      setError('Invalid OTP. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    setLoading(true);
+    setError('');
+    
+    try {
+      // Reset reCAPTCHA
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
+      }
+      
+      // Reinitialize reCAPTCHA
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+        callback: (response) => {
+          console.log('reCAPTCHA verified');
+        }
+      });
+
+      const phoneNumber = `+91${phone}`;
+      const appVerifier = window.recaptchaVerifier;
+      
+      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+      setConfirmationResult(confirmation);
+      console.log('OTP resent successfully');
+    } catch (error) {
+      console.error('Error resending OTP:', error);
+      setError('Failed to resend OTP. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -86,6 +161,9 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-6">
+      {/* reCAPTCHA container */}
+      <div id="recaptcha-container"></div>
+      
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Left side - Visual content */}
@@ -110,6 +188,16 @@ const Auth = () => {
 
           {/* Right side - Form content */}
           <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center items-center">
+            {/* Test Credentials Info */}
+            <div className="w-full mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <h3 className="text-sm font-semibold text-blue-800 mb-2">🔐 Test Credentials (Development Only)</h3>
+              <div className="text-xs text-blue-700 space-y-1">
+                <p><span className="font-medium">Phone:</span> 9570452922</p>
+                <p><span className="font-medium">OTP:</span> 123456</p>
+                <p className="text-blue-600 mt-2 italic">Note: These will be removed after billing setup</p>
+              </div>
+            </div>
+
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -134,7 +222,7 @@ const Auth = () => {
                 otp={otp}
                 setOtp={setOtp}
                 onSubmit={handleOtpSubmit}
-                onResend={() => sendOTP(phone)}
+                onResend={handleResendOTP}
                 loading={loading}
                 phone={phone}
               />
