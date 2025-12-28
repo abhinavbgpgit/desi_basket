@@ -1,94 +1,100 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  const {
+    addToCart,
+    updateQuantity,
+    removeFromCart,
+    getItemQuantity
+  } = useCart();
+
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const handleAddToCart = (e) => {
+  const quantity = getItemQuantity(product.id);
+
+  const handleBuy = (e) => {
     e.stopPropagation();
-    
-    // Check if user is logged in
     if (!user) {
-      // Redirect to login page
       navigate('/auth');
       return;
     }
-    
+
     addToCart({
       ...product,
       quantity: 1
     });
   };
 
-  const handleClick = () => {
-    navigate(`/product/${product.id}`);
+  const increment = (e) => {
+    e.stopPropagation();
+    updateQuantity(product.id, quantity + 1);
+  };
+
+  const decrement = (e) => {
+    e.stopPropagation();
+    if (quantity === 1) {
+      removeFromCart(product.id);
+    } else {
+      updateQuantity(product.id, quantity - 1);
+    }
   };
 
   return (
-    <div className="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-green-300 transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
-      <div className="flex h-48">
-        {/* Image Section - Left side with fixed height */}
-        <div className="w-2/5 relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
-          <img
-            src={product.images?.[0] || product.image || '/placeholder-product.jpg'}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            onError={(e) => {
-              e.target.src = '/placeholder-product.jpg';
-            }}
-          />
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          
-          {/* Price Badge */}
-          <div className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
-            ₹{product.price}/{product.unit}
+    <div className="bg-white rounded-2xl shadow-md p-4 w-full">
+      {/* Image */}
+      <img
+        src={product.images?.[0] || product.image || '/placeholder-product.jpg'}
+        alt={product.name}
+        className="w-full h-32 object-contain mb-2"
+      />
+
+      {/* Delivery time */}
+      <div className="text-xs text-gray-600 mb-1">⏱ 11 MINS</div>
+
+      {/* Name */}
+      <h3 className="text-sm font-semibold leading-snug line-clamp-2">
+        {product.name}
+      </h3>
+
+      {/* Weight */}
+      <p className="text-xs text-gray-500 mb-3">
+        {product.unit}
+      </p>
+
+      {/* Price + Action */}
+      <div className="flex items-center justify-between">
+        <span className="font-bold text-sm">₹{product.price}</span>
+
+        {quantity > 0 ? (
+          <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+            <button
+              onClick={decrement}
+              className="px-2 text-lg font-bold hover:bg-green-700"
+            >
+              −
+            </button>
+            <span className="px-3 text-sm font-semibold">
+              {quantity}
+            </span>
+            <button
+              onClick={increment}
+              className="px-2 text-lg font-bold hover:bg-green-700"
+            >
+              +
+            </button>
           </div>
-        </div>
-
-        {/* Content Section - Middle */}
-        <div className="flex-1 p-4 flex flex-col justify-between">
-          <div>
-            {/* Product Name */}
-            <h3 className="font-bold text-gray-900 mb-2 text-sm leading-tight group-hover:text-green-700 transition-colors line-clamp-2">
-              {product.name}
-            </h3>
-            
-            {/* Description */}
-            <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
-              {product.description}
-            </p>
-          </div>
-
-          {/* Additional Info */}
-          {product.category && (
-            <div className="mt-2">
-              <span className="inline-block bg-green-50 text-green-700 text-xs font-medium px-2 py-1 rounded-full">
-                {product.category}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Buttons Section - Right side */}
-        <div className="w-24 flex flex-col gap-2 p-3 bg-gray-50 border-l border-gray-100">
+        ) : (
           <button
-            onClick={handleClick}
-            className="flex-1 bg-white border-2 border-gray-300 text-gray-700 rounded-lg text-xs font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 flex items-center justify-center"
+            onClick={handleBuy}
+            className="border border-green-600 text-green-700 text-sm font-semibold px-3 py-1 rounded-lg hover:bg-green-50"
           >
-            Detail
+            Buy This
           </button>
-          <button
-            onClick={handleAddToCart}
-            className="flex-1 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700 transition-all duration-200 flex items-center justify-center shadow-sm"
-          >
-            Add
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

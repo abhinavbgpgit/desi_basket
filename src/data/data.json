@@ -1,4 +1,3 @@
-
 [
   {
     "id": "veg_tomato",
@@ -10,6 +9,7 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
+    "price": 40,
     "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=tomato&search_simple=1&action=process&json=1"
   },
   {
@@ -22,6 +22,7 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
+    "price": 25,
     "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=potato&search_simple=1&action=process&json=1"
   },
   {
@@ -34,6 +35,7 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
+    "price": 35,
     "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=onion&search_simple=1&action=process&json=1"
   },
   {
@@ -46,6 +48,7 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "bundle",
+    "price": 15,
     "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=spinach&search_simple=1&action=process&json=1"
   },
   {
@@ -58,7 +61,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=okra&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=okra&search_simple=1&action=process&json=1",
+    "price": 45
   },
   {
     "id": "veg_brinjal",
@@ -70,7 +74,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=eggplant&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=eggplant&search_simple=1&action=process&json=1",
+    "price": 50
   },
   {
     "id": "veg_cabbage",
@@ -82,7 +87,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cabbage&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cabbage&search_simple=1&action=process&json=1",
+    "price": 20
   },
   {
     "id": "veg_carrot",
@@ -94,7 +100,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=carrot&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=carrot&search_simple=1&action=process&json=1",
+    "price": 50
   },
   {
     "id": "veg_pumpkin",
@@ -106,7 +113,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=pumpkin&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=pumpkin&search_simple=1&action=process&json=1",
+    "price": 25
   },
   {
     "id": "veg_bottle_gourd",
@@ -118,7 +126,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=bottle+gourd&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=bottle+gourd&search_simple=1&action=process&json=1",
+    "price": 20
   },
   {
     "id": "fruit_apple",
@@ -130,7 +139,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=apple&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=apple&search_simple=1&action=process&json=1",
+    "price": 150
   },
   {
     "id": "fruit_banana",
@@ -142,7 +152,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "dozen",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=banana&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=banana&search_simple=1&action=process&json=1",
+    "price": 50
   },
   {
     "id": "fruit_mango",
@@ -154,7 +165,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=mango&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=mango&search_simple=1&action=process&json=1",
+    "price": 80
   },
   {
     "id": "fruit_orange",
@@ -166,7 +178,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=orange&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=orange&search_simple=1&action=process&json=1",
+    "price": 70
   },
   {
     "id": "fruit_guava",
@@ -178,7 +191,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=guava&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=guava&search_simple=1&action=process&json=1",
+    "price": 40
   },
   {
     "id": "fruit_papaya",
@@ -190,7 +204,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=papaya&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=papaya&search_simple=1&action=process&json=1",
+    "price": 30
   },
   {
     "id": "pulse_toor",
@@ -202,7 +217,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=toor+dal&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=toor+dal&search_simple=1&action=process&json=1",
+    "price": 140
   },
   {
     "id": "pulse_moong",
@@ -214,7 +230,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=moong+dal&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=moong+dal&search_simple=1&action=process&json=1",
+    "price": 130
   },
   {
     "id": "grain_rice",
@@ -226,7 +243,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=rice&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=rice&search_simple=1&action=process&json=1",
+    "price": 60
   },
   {
     "id": "grain_wheat",
@@ -238,7 +256,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=wheat&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=wheat&search_simple=1&action=process&json=1",
+    "price": 35
   },
   {
     "id": "grain_millet",
@@ -250,7 +269,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=millet&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=millet&search_simple=1&action=process&json=1",
+    "price": 45
   },
   {
     "id": "oil_mustard",
@@ -262,7 +282,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "litre",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=mustard+oil&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=mustard+oil&search_simple=1&action=process&json=1",
+    "price": 180
   },
   {
     "id": "oil_sesame",
@@ -274,7 +295,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "litre",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=sesame+oil&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=sesame+oil&search_simple=1&action=process&json=1",
+    "price": 200
   },
   {
     "id": "spice_turmeric",
@@ -286,7 +308,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=turmeric&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=turmeric&search_simple=1&action=process&json=1",
+    "price": 250
   },
   {
     "id": "spice_cumin",
@@ -298,7 +321,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cumin&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cumin&search_simple=1&action=process&json=1",
+    "price": 220
   },
   {
     "id": "spice_black_pepper",
@@ -310,7 +334,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=black+pepper&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=black+pepper&search_simple=1&action=process&json=1",
+    "price": 400
   },
   {
     "id": "locery_sattu",
@@ -322,7 +347,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=sattu&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=sattu&search_simple=1&action=process&json=1",
+    "price": 85
   },
   {
     "id": "locery_pickles",
@@ -334,7 +360,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "jar",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=pickle&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=pickle&search_simple=1&action=process&json=1",
+    "price": 150
   },
   {
     "id": "locery_honey",
@@ -346,7 +373,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "jar",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=honey&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=honey&search_simple=1&action=process&json=1",
+    "price": 350
   },
   {
     "id": "locery_jaggery",
@@ -358,7 +386,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=jaggery&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=jaggery&search_simple=1&action=process&json=1",
+    "price": 65
   },
   {
     "id": "nonveg_eggs_deshi",
@@ -370,7 +399,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "dozen",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=eggs&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=eggs&search_simple=1&action=process&json=1",
+    "price": 6
   },
   {
     "id": "nonveg_chicken_deshi",
@@ -382,7 +412,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=chicken&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=chicken&search_simple=1&action=process&json=1",
+    "price": 220
   },
   {
     "id": "nonveg_fish_local",
@@ -394,7 +425,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=fish&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=fish&search_simple=1&action=process&json=1",
+    "price": 180
   },
   {
     "id": "locery_besan",
@@ -406,7 +438,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=besan&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=besan&search_simple=1&action=process&json=1",
+    "price": 90
   },
   {
     "id": "locery_groundnut",
@@ -418,7 +451,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=peanut&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=peanut&search_simple=1&action=process&json=1",
+    "price": 95
   },
   {
     "id": "spice_red_chilli",
@@ -430,7 +464,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=red+chilli&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=red+chilli&search_simple=1&action=process&json=1",
+    "price": 300
   },
   {
     "id": "herb_mint",
@@ -442,7 +477,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "bundle",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=mint&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=mint&search_simple=1&action=process&json=1",
+    "price": 25
   },
   {
     "id": "herb_coriander",
@@ -454,7 +490,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "bundle",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=coriander&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=coriander&search_simple=1&action=process&json=1",
+    "price": 20
   },
   {
     "id": "snack_chikki",
@@ -466,7 +503,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "piece",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=chikki&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=chikki&search_simple=1&action=process&json=1",
+    "price": 120
   },
   {
     "id": "locery_rice_flour",
@@ -478,7 +516,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=rice+flour&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=rice+flour&search_simple=1&action=process&json=1",
+    "price": 55
   },
   {
     "id": "locery_gur",
@@ -490,7 +529,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=jaggery&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=jaggery&search_simple=1&action=process&json=1",
+    "price": 60
   },
   {
     "id": "herb_ginger",
@@ -502,7 +542,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=ginger&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=ginger&search_simple=1&action=process&json=1",
+    "price": 80
   },
   {
     "id": "herb_garlic",
@@ -514,7 +555,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=garlic&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=garlic&search_simple=1&action=process&json=1",
+    "price": 120
   },
   {
     "id": "veg_cucumber",
@@ -526,7 +568,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cucumber&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cucumber&search_simple=1&action=process&json=1",
+    "price": 25
   },
   {
     "id": "veg_capsicum",
@@ -538,7 +581,8 @@
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=capsicum&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=capsicum&search_simple=1&action=process&json=1",
+    "price": 60
   },
   {
     "id": "spice_cardamom",
@@ -550,7 +594,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cardamom&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=cardamom&search_simple=1&action=process&json=1",
+    "price": 800
   },
   {
     "id": "dairy_milk",
@@ -562,7 +607,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "litre",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=milk&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=milk&search_simple=1&action=process&json=1",
+    "price": 55
   },
   {
     "id": "dairy_curd",
@@ -574,7 +620,8 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=curd&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=curd&search_simple=1&action=process&json=1",
+    "price": 70
   },
   {
     "id": "dairy_ghee",
@@ -586,6 +633,290 @@
     "farmer_sold": true,
     "local_only": true,
     "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=ghee&search_simple=1&action=process&json=1"
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=ghee&search_simple=1&action=process&json=1",
+    "price": 550
+  },
+  {
+    "id": "dairy_paneer",
+    "name": "Paneer (Cottage Cheese)",
+    "category": "dairy",
+    "subcategory": "cheese",
+    "image": "https://images.unsplash.com/photo-1639024471283-03518883512d?w=400",
+    "description": "Fresh homemade paneer — made from pure cow milk, soft and delicious",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=paneer&search_simple=1&action=process&json=1",
+    "price": 320
+  },
+  {
+    "id": 101,
+    "name": "Sona Moti Aata",
+    "category": "pulses_grains",
+    "subcategory": "flour",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400",
+    "description": "Premium organic whole wheat flour from deshi seeds, stone-ground for authentic taste",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 85
+  },
+  {
+    "id": 102,
+    "name": "Katarni Rice",
+    "category": "pulses_grains",
+    "subcategory": "rice",
+    "image": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400",
+    "description": "Premium organic Katarni rice, aromatic and nutritious, grown with traditional farming methods",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 120
+  },
+  {
+    "id": 103,
+    "name": "Katarni Chura",
+    "category": "pulses_grains",
+    "subcategory": "chura",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400",
+    "description": "Flattened organic Katarni rice, perfect for poha and traditional recipes",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 110
+  },
+  {
+    "id": 104,
+    "name": "Arhar Dal",
+    "category": "pulses_grains",
+    "subcategory": "arhar",
+    "image": "https://images.unsplash.com/photo-1551468747-edb33a9c2b1e?w=400",
+    "description": "Premium organic pigeon pea lentils, rich in protein and traditional Indian staple",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 140
+  },
+  {
+    "id": 105,
+    "name": "Moong Dal",
+    "category": "pulses_grains",
+    "subcategory": "moong",
+    "image": "https://images.unsplash.com/photo-1551468747-edb33a9c2b1e?w=400",
+    "description": "Organic split yellow lentils, easy to digest and perfect for traditional dal preparations",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 130
+  },
+  {
+    "id": 106,
+    "name": "Urad Dal",
+    "category": "pulses_grains",
+    "subcategory": "urad",
+    "image": "https://images.unsplash.com/photo-1551468747-edb33a9c2b1e?w=400",
+    "description": "Premium organic black gram lentils, essential for idli, dosa and traditional recipes",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 150
+  },
+  {
+    "id": 107,
+    "name": "Chana Dal",
+    "category": "pulses_grains",
+    "subcategory": "chana",
+    "image": "https://images.unsplash.com/photo-1551468747-edb33a9c2b1e?w=400",
+    "description": "Organic split Bengal gram, perfect for chana masala and traditional lentil dishes",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 125
+  },
+  {
+    "id": 108,
+    "name": "Masoor Dal",
+    "category": "pulses_grains",
+    "subcategory": "masoor",
+    "image": "https://images.unsplash.com/photo-1551468747-edb33a9c2b1e?w=400",
+    "description": "Organic red lentils, quick cooking and rich in nutrients for healthy meals",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 135
+  },
+  {
+    "id": 109,
+    "name": "Toor Dal",
+    "category": "pulses_grains",
+    "subcategory": "toor",
+    "image": "https://images.unsplash.com/photo-1551468747-edb33a9c2b1e?w=400",
+    "description": "Premium organic pigeon pea lentils, traditional staple for South Indian cuisine",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 145
+  },
+  {
+    "id": 110,
+    "name": "Turmeric Powder",
+    "category": "oils_spices",
+    "subcategory": "turmeric",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400",
+    "description": "Organic turmeric powder from deshi varieties, rich in curcumin and antioxidants",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 180
+  },
+  {
+    "id": 111,
+    "name": "Ajwain",
+    "category": "oils_spices",
+    "subcategory": "ajwain",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400",
+    "description": "Organic carom seeds, traditional spice for digestion and authentic Indian flavors",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 200
+  },
+  {
+    "id": 112,
+    "name": "Dhaniya Powder",
+    "category": "oils_spices",
+    "subcategory": "dhaniya",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400",
+    "description": "Organic coriander powder, essential spice for traditional Indian cooking",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 160
+  },
+  {
+    "id": 113,
+    "name": "Jaggery",
+    "category": "oils_spices",
+    "subcategory": "jaggery",
+    "image": "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400",
+    "description": "Organic sugarcane jaggery, natural sweetener with minerals and traditional taste",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": true,
+    "deshi_seeds": false,
+    "price": 95
+  },
+  {
+    "id": 114,
+    "name": "Sattu",
+    "category": "oils_spices",
+    "subcategory": "sattu",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400",
+    "description": "Organic roasted gram flour, traditional energy food and cooling drink base",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 75
+  },
+  {
+    "id": 115,
+    "name": "Besan",
+    "category": "oils_spices",
+    "subcategory": "besan",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400",
+    "description": "Organic chickpea flour, stone-ground for authentic taste and texture",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 90
+  },
+  {
+    "id": 116,
+    "name": "Moringa Powder",
+    "category": "herb",
+    "subcategory": "moringa",
+    "image": "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400",
+    "description": "Organic moringa leaf powder, superfood rich in vitamins, minerals and antioxidants",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 450
+  },
+  {
+    "id": 117,
+    "name": "Moringa Leaves",
+    "category": "herb",
+    "subcategory": "moringa",
+    "image": "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400",
+    "description": "Fresh organic moringa leaves, nutrient-dense superfood for traditional cooking",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": false,
+    "deshi_seeds": true,
+    "price": 120
+  },
+  {
+    "id": 118,
+    "name": "Moringa Seeds",
+    "category": "herb",
+    "subcategory": "moringa",
+    "image": "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400",
+    "description": "Organic moringa seeds, rich in healthy fats and traditional medicinal uses",
+    "farmer_sold": true,
+    "local_only": true,
+    "quantity_units": "kg",
+    "organic": true,
+    "cold_press": true,
+    "deshi_seeds": true,
+    "price": 300
   }
 ]

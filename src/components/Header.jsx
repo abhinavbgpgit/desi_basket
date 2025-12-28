@@ -167,7 +167,7 @@ const Header = () => {
         </div>
 
         {/* Right side icons */}
-        <div className="flex items-center space-x-4 flex-shrink-0">
+        <div className="hidden md:flex items-center space-x-4 flex-shrink-0">
           {/* Cart Icon */}
           <Link to="/app/cart" className="relative group">
             <div className={`transition-all duration-300 ${cartAnimation ? 'animate-bounce' : ''}`}>

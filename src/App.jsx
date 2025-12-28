@@ -5,6 +5,7 @@ import { CartProvider } from './context/CartContext'
 import Auth from './pages/Auth'
 import MainLayout from './layouts/MainLayout'
 import HomeDashboard from './pages/HomeDashboard'
+import Products from './pages/Products'
 import CategoryListing from './pages/CategoryListing'
 import ProductDetails from './pages/ProductDetails'
 import WeeklyCart from './pages/WeeklyCart'
@@ -38,6 +39,7 @@ function App() {
             {/* Main app routes - accessible without login */}
             <Route path="/" element={<MainLayout />}>
               <Route index element={<HomeDashboard />} />
+              <Route path="products/:categoryName" element={<Products />} />
               <Route path="category/:categoryId" element={<CategoryListing />} />
               <Route path="product/:productId" element={<ProductDetails />} />
               <Route path="farmers" element={<Farmers />} />

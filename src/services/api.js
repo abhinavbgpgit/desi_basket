@@ -38,6 +38,11 @@ api.interceptors.response.use(
 const PRODUCT_CATEGORIES = {
   VEGETABLES: 'Vegetables',
   FRUITS: 'Fruits',
+  PULSES_DALS: 'Pulses & Dals',
+  ATTA_RICE_CHURA: 'Atta, Rice & Chura',
+  COLD_PRESSED_NATURAL: 'Cold Pressed & Natural Foods',
+  SPICES_HERBS: 'Spices & Herbs',
+  HEALTH_SUPERFOODS: 'Health & Superfoods',
   GRAINS: 'Grains',
   DAIRY: 'Dairy',
   DESI_NONVEG: 'Desi Non-Veg',
@@ -102,13 +107,25 @@ function fetchProductsFromDataJson() {
           productCategory = PRODUCT_CATEGORIES.FRUITS;
           break;
         case 'pulses_grains':
-          productCategory = PRODUCT_CATEGORIES.GRAINS;
+          // Split pulses_grains into more specific categories
+          if (item.name.toLowerCase().includes('dal') || item.name.toLowerCase().includes('chana')) {
+            productCategory = PRODUCT_CATEGORIES.PULSES_DALS;
+          } else if (item.name.toLowerCase().includes('rice') || item.name.toLowerCase().includes('wheat') || item.name.toLowerCase().includes('atta')) {
+            productCategory = PRODUCT_CATEGORIES.ATTA_RICE_CHURA;
+          } else {
+            productCategory = PRODUCT_CATEGORIES.GRAINS;
+          }
           break;
         case 'dairy':
           productCategory = PRODUCT_CATEGORIES.DAIRY;
           break;
         case 'oils_spices':
-          productCategory = PRODUCT_CATEGORIES.LOCAL_PROCESSED;
+          // Split oils_spices
+          if (item.name.toLowerCase().includes('oil') || item.name.toLowerCase().includes('jaggery') || item.name.toLowerCase().includes('besan')) {
+            productCategory = PRODUCT_CATEGORIES.COLD_PRESSED_NATURAL;
+          } else {
+            productCategory = PRODUCT_CATEGORIES.SPICES_HERBS;
+          }
           break;
         case 'locery':
           productCategory = PRODUCT_CATEGORIES.LOCAL_PROCESSED;
@@ -117,7 +134,12 @@ function fetchProductsFromDataJson() {
           productCategory = PRODUCT_CATEGORIES.DESI_NONVEG;
           break;
         case 'herb':
-          productCategory = PRODUCT_CATEGORIES.VEGETABLES;
+          // Special case for moringa superfoods
+          if (item.name.toLowerCase().includes('moringa')) {
+            productCategory = PRODUCT_CATEGORIES.HEALTH_SUPERFOODS;
+          } else {
+            productCategory = PRODUCT_CATEGORIES.SPICES_HERBS;
+          }
           break;
         default:
           productCategory = PRODUCT_CATEGORIES.VEGETABLES;

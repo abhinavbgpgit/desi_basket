@@ -1,33 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
 import { apiService as api } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import ComboPackCard from '../components/ComboPackCard';
 import FarmerCard from '../components/FarmerCard';
 import farmersData from '../data/farmers.json';
 import dashboardBanner from '../assets/dashboard_banner.png';
+import productsData from '../data/data.json';
 
 const HomeDashboard = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [categoryProducts, setCategoryProducts] = useState({});
   const [comboPacks, setComboPacks] = useState([]);
   const [activeRequest, setActiveRequest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const categoriesRef = useRef(null);
 
-  const { getItemCount } = useCart();
+  // Category mapping
+  const categoryMapping = {
+    'Vegetables': 'vegetable',
+    'Fruits': 'fruit',
+    'Pulses & Dals': 'pulses_grains',
+    'Atta, Rice & Chura': 'pulses_grains',
+    'Cold Pressed & Natural Foods': 'oils_spices',
+    'Spices & Herbs': 'oils_spices',
+    'Health & Superfoods': 'locery',
+    'Grains': 'pulses_grains',
+    'Dairy': 'dairy',
+    'Desi Non-Veg': 'nonveg_local',
+    'Local Processed Foods': 'locery'
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [productsResponse, packsResponse, requestResponse] = await Promise.all([
-          api.getFeaturedProducts(),
+        const [packsResponse, requestResponse] = await Promise.all([
           api.getComboPacks(),
           api.getActiveRequest()
         ]);
 
-        setFeaturedProducts(productsResponse);
+        // Group products by category and get random 4 from each
+        const grouped = {};
+        
+        Object.keys(categoryMapping).forEach(categoryName => {
+          const categoryKey = categoryMapping[categoryName];
+          const categoryItems = productsData.filter(
+            product => product.category === categoryKey
+          );
+          
+          // Shuffle and take 4 random items
+          const shuffled = [...categoryItems].sort(() => Math.random() - 0.5);
+          grouped[categoryName] = shuffled.slice(0, 4);
+        });
+
+        setCategoryProducts(grouped);
         setComboPacks(packsResponse);
         setActiveRequest(requestResponse);
       } catch (error) {
@@ -41,27 +71,103 @@ const HomeDashboard = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    const handleGlobalMouseMove = (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const container = categoriesRef.current;
+      if (!container) return;
+      
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 2;
+      container.scrollLeft = scrollLeft - walk;
+    };
+
+    if (isDragging) {
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+      document.addEventListener('mousemove', handleGlobalMouseMove);
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+    };
+  }, [isDragging, startX, scrollLeft]);
+
   const categories = [
-    { name: "Vegetables", icon: "🥬", route: "/category/Vegetables" },
-    { name: "Fruits", icon: "🍎", route: "/category/Fruits" },
-    { name: "Grains", icon: "🌾", route: "/category/Grains" },
-    { name: "Dairy", icon: "🥛", route: "/category/Dairy" },
-    { name: "Desi Non-Veg", icon: "🍖", route: "/category/Desi Non-Veg" },
-    { name: "Local Processed", icon: "🧈", route: "/category/Local Processed Foods" },
+    { name: "Vegetables", icon: "🥬", route: "/products/Vegetables", displayName: "Vegetables" },
+    { name: "Fruits", icon: "🍎", route: "/products/Fruits", displayName: "Fruits" },
+    { name: "Pulses & Dals", icon: "🫘", route: "/products/Pulses & Dals", displayName: "Pulses & Dals" },
+    { name: "Atta, Rice & Chura", icon: "🌾", route: "/products/Atta, Rice & Chura", displayName: "Atta, Rice & Chura" },
+    { name: "Cold Pressed & Natural Foods", icon: "🥥", route: "/products/Cold Pressed & Natural Foods", displayName: "Cold Pressed & Natural Foods" },
+    { name: "Spices & Herbs", icon: "🌿", route: "/products/Spices & Herbs", displayName: "Spices & Herbs" },
+    { name: "Health & Superfoods", icon: "💚", route: "/products/Health & Superfoods", displayName: "Health & Superfoods" },
+    { name: "Grains", icon: "🌾", route: "/products/Grains", displayName: "Grains" },
+    { name: "Dairy", icon: "🥛", route: "/products/Dairy", displayName: "Dairy" },
+    { name: "Desi Non-Veg", icon: "🍖", route: "/products/Desi Non-Veg", displayName: "Desi Non-Veg" },
+    { name: "Local Processed Foods", icon: "🧈", route: "/products/Local Processed Foods", displayName: "Local Processed" },
   ];
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - e.currentTarget.offsetLeft);
+    setScrollLeft(e.currentTarget.scrollLeft);
+    e.preventDefault(); // Prevent default behavior
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - e.currentTarget.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed multiplier
+    e.currentTarget.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleCategoryClick = (e) => {
+    if (isDragging) {
+      e.preventDefault(); // Prevent navigation if dragging
+      setIsDragging(false);
+    }
+  };
+
+  const scrollLeftCategories = () => {
+    if (categoriesRef.current) {
+      categoriesRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRightCategories = () => {
+    if (categoriesRef.current) {
+      categoriesRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+    }
+  };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="p-4">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
-          <div className="flex gap-4 overflow-x-auto pb-2">
-            {[...Array(6)].map((_, index) => (
-              <div key={index} className="bg-white rounded-xl p-4 text-center shadow-sm animate-pulse flex-shrink-0 w-24">
-                <div className="text-3xl mb-2 bg-gray-200 rounded-full w-12 h-12 mx-auto"></div>
-                <div className="text-sm font-medium text-gray-700 bg-gray-200 rounded h-4"></div>
-              </div>
-            ))}
+          <div className="relative">
+            <div className="flex gap-4 overflow-x-auto pb-2 px-12 scrollbar-hide">
+              {[...Array(11)].map((_, index) => (
+                <div key={index} className="bg-white rounded-xl p-4 text-center shadow-sm animate-pulse flex-shrink-0 w-40">
+                  <div className="text-3xl mb-2 bg-gray-200 rounded-full w-12 h-12 mx-auto"></div>
+                  <div className="text-sm font-medium text-gray-700 bg-gray-200 rounded h-4"></div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -130,7 +236,7 @@ const HomeDashboard = () => {
         />
         <Link
           to="/category/all"
-          className="absolute bg-white hover:bg-gray-50 text-green-600 font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+          className="hidden md:block absolute bg-white hover:bg-gray-50 text-green-600 font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
           style={{ bottom: '15px', left: '280px' }}
         >
           Buy Now
@@ -140,34 +246,88 @@ const HomeDashboard = () => {
       {/* Categories */}
       <div className="p-4">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          {categories.map((category) => (
-            <Link
-              key={category.name}
-              to={category.route}
-              className="bg-white rounded-xl p-4 text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-24"
-            >
-              <div className="text-3xl mb-2">{category.icon}</div>
-              <div className="text-sm font-medium text-gray-700">{category.name}</div>
-            </Link>
-          ))}
+        <div className="relative">
+          {/* Left Gradient Background */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/20 to-transparent z-5 pointer-events-none"></div>
+
+          {/* Left Arrow */}
+          <button
+            onClick={scrollLeftCategories}
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+          >
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Categories Container */}
+          <div 
+            ref={categoriesRef}
+            className={`flex gap-4 overflow-x-auto pb-2 scrollbar-hide ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none px-12`}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {categories.map((category) => (
+              <Link
+                key={category.name}
+                to={category.route}
+                className="bg-white rounded-xl p-2 text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-40 border border-gray-200"
+                onClick={handleCategoryClick}
+              >
+                <div className="text-2xl mb-1">{category.icon}</div>
+                <div className="text-xs font-medium text-gray-700">{category.name}</div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Right Gradient Background */}
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/20 to-transparent z-5 pointer-events-none"></div>
+
+          {/* Right Arrow */}
+          <button
+            onClick={scrollRightCategories}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+          >
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
 
-      {/* Featured Products */}
-      <div className="p-4 mt-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">Featured This Week</h2>
-          <Link to="/category/all" className="text-green-600 text-sm hover:text-green-700">
-            See All
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div>
+      {/* Category-wise Products */}
+      {categories.map((category) => {
+        const products = categoryProducts[category.name] || [];
+        if (products.length === 0) return null;
+
+        return (
+          <div key={category.name} className="p-4 mt-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                <span>{category.icon}</span>
+                <span>{category.displayName}</span>
+              </h2>
+              <Link
+                to={category.route}
+                className="text-green-600 text-sm hover:text-green-700 flex items-center gap-1"
+              >
+                See All
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </div>
+        );
+      })}
 
       {/* Combo Packs */}
       <div className="p-4 mt-6 bg-white">
