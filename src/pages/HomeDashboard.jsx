@@ -320,7 +320,7 @@ const HomeDashboard = () => {
                 </svg>
               </Link>
             </div>
-            <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide">
+            <div className="grid grid-cols-2 md:flex md:overflow-x-auto gap-4 pb-4 scrollbar-hide">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
