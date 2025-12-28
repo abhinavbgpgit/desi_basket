@@ -34,7 +34,7 @@ const LandingPage = () => {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className={`bg-white/95 backdrop-blur-md shadow-sm fixed top-0 left-0 right-0 z-50 border-b border-green-100 transition-all duration-300 ${
-        isScrolled ? 'py-2' : 'py-4'
+        isScrolled ? 'py-2' : 'py-1'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <motion.div
@@ -46,7 +46,7 @@ const LandingPage = () => {
             <img
               src={desiLogo}
               alt="Desi Basket"
-              className={`transition-all duration-300 ${isScrolled ? 'w-32' : 'w-40'}`}
+              className={`transition-all duration-300 ${isScrolled ? 'w-20' : 'w-60'}`}
             />
           </motion.div>
           <motion.div

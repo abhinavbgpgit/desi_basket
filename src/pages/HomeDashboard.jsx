@@ -6,9 +6,9 @@ import ProductCard from '../components/ProductCard';
 import ComboPackCard from '../components/ComboPackCard';
 import FarmerCard from '../components/FarmerCard';
 import farmersData from '../data/farmers.json';
+import dashboardBanner from '../assets/dashboard_banner.png';
 
 const HomeDashboard = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [comboPacks, setComboPacks] = useState([]);
   const [activeRequest, setActiveRequest] = useState(null);
@@ -42,40 +42,18 @@ const HomeDashboard = () => {
   }, []);
 
   const categories = [
-    { name: "Vegetables", icon: "🥬", route: "/app/category/Vegetables" },
-    { name: "Fruits", icon: "🍎", route: "/app/category/Fruits" },
-    { name: "Grains", icon: "🌾", route: "/app/category/Grains" },
-    { name: "Dairy", icon: "🥛", route: "/app/category/Dairy" },
-    { name: "Desi Non-Veg", icon: "🍖", route: "/app/category/Desi Non-Veg" },
-    { name: "Local Processed", icon: "🧈", route: "/app/category/Local Processed Foods" },
+    { name: "Vegetables", icon: "🥬", route: "/category/Vegetables" },
+    { name: "Fruits", icon: "🍎", route: "/category/Fruits" },
+    { name: "Grains", icon: "🌾", route: "/category/Grains" },
+    { name: "Dairy", icon: "🥛", route: "/category/Dairy" },
+    { name: "Desi Non-Veg", icon: "🍖", route: "/category/Desi Non-Veg" },
+    { name: "Local Processed", icon: "🧈", route: "/category/Local Processed Foods" },
   ];
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Implement search functionality
-    console.log('Searching for:', searchQuery);
-  };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="p-4 bg-white shadow-sm">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search for fresh produce..."
-              className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-              disabled
-            />
-            <div className="absolute left-4 top-3 text-gray-400">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-4 mt-6">
+        <div className="p-4">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
           <div className="flex gap-4 overflow-x-auto pb-2">
             {[...Array(6)].map((_, index) => (
@@ -143,24 +121,20 @@ const HomeDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Search Bar */}
-      <div className="p-4 bg-white shadow-sm">
-        <form onSubmit={handleSearch}>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search for fresh produce..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-            <div className="absolute left-4 top-3 text-gray-400">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-          </div>
-        </form>
+      {/* Banner Section */}
+      <div className="relative w-full overflow-hidden">
+        <img
+          src={dashboardBanner}
+          alt="Dashboard Banner"
+          className="w-full h-auto object-cover"
+        />
+        <Link
+          to="/category/all"
+          className="absolute bg-white hover:bg-gray-50 text-green-600 font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+          style={{ bottom: '15px', left: '280px' }}
+        >
+          Buy Now
+        </Link>
       </div>
 
       {/* Categories */}
@@ -184,7 +158,7 @@ const HomeDashboard = () => {
       <div className="p-4 mt-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Featured This Week</h2>
-          <Link to="/app/category/all" className="text-green-600 text-sm hover:text-green-700">
+          <Link to="/category/all" className="text-green-600 text-sm hover:text-green-700">
             See All
           </Link>
         </div>
@@ -215,7 +189,7 @@ const HomeDashboard = () => {
                 <p className="text-sm text-gray-600">Status: {activeRequest.status}</p>
                 <p className="text-sm text-gray-600">Delivery: {activeRequest.deliveryDate}</p>
               </div>
-              <Link to="/app/requests" className="text-green-600 text-sm hover:text-green-700">
+              <Link to="/requests" className="text-green-600 text-sm hover:text-green-700">
                 View Details
               </Link>
             </div>
@@ -245,7 +219,7 @@ const HomeDashboard = () => {
       <div className="p-4 mt-6 bg-white rounded-xl relative">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Meet Our Local Farmers</h2>
-          <Link to="/app/farmers" className="text-green-600 text-sm hover:text-green-700 flex items-center">
+          <Link to="/farmers" className="text-green-600 text-sm hover:text-green-700 flex items-center">
             View All {farmersData.farmers.length} Farmers
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -259,8 +233,8 @@ const HomeDashboard = () => {
           ))}
 
           {/* Browse All Farmers Card */}
-          <Link 
-            to="/app/farmers"
+          <Link
+            to="/farmers"
             className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 text-center hover:from-green-100 hover:to-emerald-100 transition-all duration-300 border-2 border-green-200 hover:border-green-300 flex flex-col items-center justify-center group"
           >
             <div className="w-14 h-14 rounded-full mx-auto mb-3 bg-green-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">

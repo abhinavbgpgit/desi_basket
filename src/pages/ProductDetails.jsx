@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { apiService as api } from '../services/api';
 
 const ProductDetails = () => {
@@ -13,6 +14,7 @@ const ProductDetails = () => {
   const [selectedDeliveryDay, setSelectedDeliveryDay] = useState('');
 
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,12 +41,19 @@ const ProductDetails = () => {
   const handleAddToCart = () => {
     if (!product) return;
 
+    // Check if user is logged in
+    if (!user) {
+      // Redirect to login page
+      navigate('/auth');
+      return;
+    }
+
     addToCart({
       ...product,
       quantity,
       deliveryDay: selectedDeliveryDay
     });
-    navigate('/app/cart');
+    navigate('/cart');
   };
 
   if (loading) {
@@ -99,7 +108,7 @@ const ProductDetails = () => {
           <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Product</h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
-            onClick={() => navigate('/app')}
+            onClick={() => navigate('/')}
             className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Home
@@ -117,7 +126,7 @@ const ProductDetails = () => {
           <h2 className="text-xl font-bold text-gray-800 mb-2">Product Not Found</h2>
           <p className="text-gray-600 mb-4">The product you're looking for doesn't exist.</p>
           <button
-            onClick={() => navigate('/app')}
+            onClick={() => navigate('/')}
             className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Home

@@ -1,13 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const ComboPackCard = ({ pack }) => {
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
+    
+    // Check if user is logged in
+    if (!user) {
+      // Redirect to login page
+      navigate('/auth');
+      return;
+    }
+    
     // Add all items in the combo pack to cart
     pack.items.forEach(item => {
       addToCart({

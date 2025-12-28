@@ -1,13 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
+    
+    // Check if user is logged in
+    if (!user) {
+      // Redirect to login page
+      navigate('/auth');
+      return;
+    }
+    
     addToCart({
       ...product,
       quantity: 1
@@ -15,7 +25,7 @@ const ProductCard = ({ product }) => {
   };
 
   const handleClick = () => {
-    navigate(`/app/product/${product.id}`);
+    navigate(`/product/${product.id}`);
   };
 
   return (

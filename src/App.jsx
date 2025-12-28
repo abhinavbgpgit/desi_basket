@@ -2,8 +2,6 @@ import './index.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
-import LandingPage from './pages/landingPage/LandingPage.jsx'
-import HowDesiBasketWorks from './pages/HowDesiBasketWorks'
 import Auth from './pages/Auth'
 import MainLayout from './layouts/MainLayout'
 import HomeDashboard from './pages/HomeDashboard'
@@ -17,7 +15,8 @@ import NotFound from './pages/NotFound'
 import Farmers from './pages/Farmers'
 import FarmerDetails from './pages/FarmerDetails'
 
-const PrivateRoute = ({ children }) => {
+// Protected route component for cart and checkout pages
+const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -33,25 +32,42 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/how-desi-basket-works" element={<HowDesiBasketWorks />} />
+            {/* Auth route */}
             <Route path="/auth" element={<Auth />} />
 
-            <Route path="/app" element={
-              <PrivateRoute>
-                <MainLayout />
-              </PrivateRoute>
-            }>
+            {/* Main app routes - accessible without login */}
+            <Route path="/" element={<MainLayout />}>
               <Route index element={<HomeDashboard />} />
               <Route path="category/:categoryId" element={<CategoryListing />} />
               <Route path="product/:productId" element={<ProductDetails />} />
-              <Route path="cart" element={<WeeklyCart />} />
-              <Route path="request-confirmation" element={<RequestConfirmation />} />
-              <Route path="requests" element={<MyRequests />} />
-              <Route path="profile" element={<Profile />} />
               <Route path="farmers" element={<Farmers />} />
               <Route path="farmer/:farmerId" element={<FarmerDetails />} />
+              
+              {/* Protected routes - require login */}
+              <Route path="cart" element={
+                <ProtectedRoute>
+                  <WeeklyCart />
+                </ProtectedRoute>
+              } />
+              <Route path="request-confirmation" element={
+                <ProtectedRoute>
+                  <RequestConfirmation />
+                </ProtectedRoute>
+              } />
+              <Route path="requests" element={
+                <ProtectedRoute>
+                  <MyRequests />
+                </ProtectedRoute>
+              } />
+              <Route path="profile" element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } />
             </Route>
+
+            {/* Redirect old /app routes to new structure */}
+            <Route path="/app/*" element={<Navigate to="/" replace />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
