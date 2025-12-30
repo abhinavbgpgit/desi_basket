@@ -247,13 +247,13 @@ const HomeDashboard = () => {
       <div className="p-4">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
         <div className="relative">
-          {/* Left Gradient Background */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/20 to-transparent z-5 pointer-events-none"></div>
+          {/* Left Gradient Background - Hidden on mobile */}
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/20 to-transparent z-5 pointer-events-none"></div>
 
-          {/* Left Arrow */}
+          {/* Left Arrow - Hidden on mobile */}
           <button
             onClick={scrollLeftCategories}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+            className="hidden md:block absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
           >
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -261,9 +261,9 @@ const HomeDashboard = () => {
           </button>
 
           {/* Categories Container */}
-          <div 
+          <div
             ref={categoriesRef}
-            className={`flex gap-4 overflow-x-auto pb-2 scrollbar-hide ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none px-12`}
+            className={`flex gap-4 overflow-x-auto pb-2 scrollbar-hide ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none px-0 md:px-12`}
             onMouseDown={handleMouseDown}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
@@ -274,7 +274,7 @@ const HomeDashboard = () => {
               <Link
                 key={category.name}
                 to={category.route}
-                className="bg-white rounded-xl p-2 text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-40 border border-gray-200"
+                className="bg-white rounded-xl p-2 text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-24 md:w-40 border border-gray-200"
                 onClick={handleCategoryClick}
               >
                 <div className="text-2xl mb-1">{category.icon}</div>
@@ -283,13 +283,13 @@ const HomeDashboard = () => {
             ))}
           </div>
 
-          {/* Right Gradient Background */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/20 to-transparent z-5 pointer-events-none"></div>
+          {/* Right Gradient Background - Hidden on mobile */}
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/20 to-transparent z-5 pointer-events-none"></div>
 
-          {/* Right Arrow */}
+          {/* Right Arrow - Hidden on mobile */}
           <button
             onClick={scrollRightCategories}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+            className="hidden md:block absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
           >
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

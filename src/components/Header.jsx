@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, LogOut, UserCircle, Package, Search } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { ShoppingCart, User, LogOut, UserCircle, Package, Search, Home, Users, ClipboardList } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import desiLogo from '../assets/desi_logo.png';
@@ -20,6 +20,7 @@ const Header = () => {
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const currentItemCount = getItemCount();
 
@@ -103,7 +104,7 @@ const Header = () => {
   return (
     <header
       className={`bg-white shadow-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'py-2' : 'py-3'
+        isScrolled ? 'py-1' : 'py-1'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center gap-4">
@@ -113,22 +114,22 @@ const Header = () => {
             src={desiLogo}
             alt="Desi Basket"
             className={`transition-all duration-300 ${
-              isScrolled ? 'w-20' : 'w-28'
+              isScrolled ? 'w-32 md:w-40' : 'w-32 md:w-40'
             }`}
           />
         </Link>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-xl relative" ref={searchRef}>
+        <div className="flex-1 max-w-md relative" ref={searchRef}>
           <div className="relative">
             <input
               type="text"
-              placeholder="Search for fresh produce..."
+              placeholder="Search for product"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+              className="w-full pl-8 pr-4 py-1 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
             />
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-2 w-4 h-4 text-gray-400" />
             {isSearching && (
               <div className="absolute right-3 top-2.5">
                 <div className="w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
@@ -166,28 +167,67 @@ const Header = () => {
           )}
         </div>
 
-        {/* Right side icons */}
-        <div className="hidden md:flex items-center space-x-4 flex-shrink-0">
+        {/* Desktop Navigation Menu */}
+        <nav className="hidden md:flex items-center space-x-1 flex-shrink-0">
+          <Link
+            to="/app"
+            className={`flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
+              location.pathname === '/app'
+                ? 'text-green-600 bg-green-50'
+                : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
+            }`}
+          >
+            <Home className="w-5 h-5" />
+            <span className="text-xs mt-0.5">Home</span>
+          </Link>
+          
+          <Link
+            to="/app/farmers"
+            className={`flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
+              location.pathname.includes('/farmers')
+                ? 'text-green-600 bg-green-50'
+                : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
+            }`}
+          >
+            <Users className="w-5 h-5" />
+            <span className="text-xs mt-0.5">Farmers</span>
+          </Link>
+          
+          <Link
+            to="/app/requests"
+            className={`flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
+              location.pathname.includes('/requests')
+                ? 'text-green-600 bg-green-50'
+                : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
+            }`}
+          >
+            <ClipboardList className="w-5 h-5" />
+            <span className="text-xs mt-0.5">Requests</span>
+          </Link>
+
+          {/* Divider */}
+          <div className="h-8 w-px bg-gray-300 mx-2"></div>
+
+          {/* Right side icons */}
           {/* Cart Icon */}
-          <Link to="/app/cart" className="relative group">
+          <Link
+            to="/app/cart"
+            className={`relative flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
+              location.pathname.includes('/cart')
+                ? 'text-green-600 bg-green-50'
+                : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
+            }`}
+          >
             <div className={`transition-all duration-300 ${cartAnimation ? 'animate-bounce' : ''}`}>
               {currentItemCount > 0 ? (
-                <ShoppingCart
-                  className={`text-gray-700 group-hover:text-green-600 transition-all duration-300 ${
-                    isScrolled ? 'w-5 h-5' : 'w-6 h-6'
-                  }`}
-                  fill="currentColor"
-                />
+                <ShoppingCart className="w-5 h-5" fill="currentColor" />
               ) : (
-                <ShoppingCart
-                  className={`text-gray-700 group-hover:text-green-600 transition-all duration-300 ${
-                    isScrolled ? 'w-5 h-5' : 'w-6 h-6'
-                  }`}
-                />
+                <ShoppingCart className="w-5 h-5" />
               )}
             </div>
+            <span className="text-xs mt-0.5">Cart</span>
             {currentItemCount > 0 && (
-              <span className={`absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold transition-all duration-300 ${
+              <span className={`absolute top-0 right-1 bg-green-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-semibold transition-all duration-300 ${
                 cartAnimation ? 'scale-125' : 'scale-100'
               }`}>
                 {currentItemCount}
@@ -200,13 +240,14 @@ const Header = () => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-                className="focus:outline-none group"
+                className={`flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors focus:outline-none ${
+                  location.pathname.includes('/profile')
+                    ? 'text-green-600 bg-green-50'
+                    : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
+                }`}
               >
-                <User
-                  className={`text-gray-700 group-hover:text-green-600 transition-all duration-300 ${
-                    isScrolled ? 'w-5 h-5' : 'w-6 h-6'
-                  }`}
-                />
+                <User className="w-5 h-5" />
+                <span className="text-xs mt-0.5">Profile</span>
               </button>
 
               {/* Dropdown Menu */}
@@ -250,7 +291,7 @@ const Header = () => {
               Login
             </Link>
           )}
-        </div>
+        </nav>
       </div>
     </header>
   );
