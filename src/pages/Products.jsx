@@ -166,13 +166,13 @@ const Products = () => {
               <div
                 key={category.name}
                 onClick={(e) => handleCategoryClick(category.name, e)}
-                className={`rounded-xl p-2 text-center shadow-sm transition-all flex-shrink-0 w-24 md:w-40 border border-gray-200 ${
+                className={`rounded-xl text-center shadow-sm transition-all flex-shrink-0 w-28 md:w-40 p-1 md:p-2 border border-gray-200 ${
                   selectedCategory === category.name
                     ? 'bg-green-600 text-white shadow-md'
                     : 'bg-white hover:shadow-md cursor-pointer'
                 }`}
               >
-                <div className="text-2xl mb-1">{category.icon}</div>
+                <div className="text-xl md:text-2xl mb-0.5 md:mb-1">{category.icon}</div>
                 <div className={`text-xs font-medium ${
                   selectedCategory === category.name ? 'text-white' : 'text-gray-700'
                 }`}>

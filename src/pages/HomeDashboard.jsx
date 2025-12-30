@@ -226,7 +226,7 @@ const HomeDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-green-50">
       {/* Banner Section */}
       <div className="relative w-full overflow-hidden">
         <img
@@ -274,10 +274,10 @@ const HomeDashboard = () => {
               <Link
                 key={category.name}
                 to={category.route}
-                className="bg-white rounded-xl p-2 text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-24 md:w-40 border border-gray-200"
+                className="bg-white rounded-xl text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-28 md:w-40 p-1 md:p-2 border border-gray-200"
                 onClick={handleCategoryClick}
               >
-                <div className="text-2xl mb-1">{category.icon}</div>
+                <div className="text-xl md:text-2xl mb-0.5 md:mb-1">{category.icon}</div>
                 <div className="text-xs font-medium text-gray-700">{category.name}</div>
               </Link>
             ))}
