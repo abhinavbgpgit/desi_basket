@@ -45,7 +45,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-[rgba(0,0,0,0.12)_0px_1px_3px,_rgba(0,0,0,0.24)_0px_1px_2px] pt-2 px-2 md:px-2 pb-3 w-full">
+    <div className="bg-white rounded-xl shadow-[rgba(0,0,0,0.12)_0px_1px_3px,_rgba(0,0,0,0.24)_0px_1px_2px] pt-2 px-2 md:px-2 pb-3 w-full flex flex-col">
       
       {/* Image */}
       <div className="bg-red-300 rounded-lg overflow-hidden mb-3 flex justify-center 
@@ -64,17 +64,17 @@ const ProductCard = ({ product }) => {
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-gray-500 mb-3 leading-snug">
+      <p className="text-sm text-gray-500 mb-3 leading-snug flex-grow">
         {product.description ||
           'High Vitamin C, very good for health and brain , eat daily'}
       </p>
 
-      {/* Price + Action */}
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
+      {/* Price + Action - Fixed at bottom on mobile */}
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mt-auto">
         
         {/* Price - Mobile: Single line, Desktop: Two lines */}
         <div className="flex items-center gap-2 md:flex-col md:items-start md:gap-0">
-          <p className="text-red-600 font-bold text-xl">
+          <p className="text-red-600 font-semibold text-base md:text-xl">
             ₹{totalPrice} Rs
           </p>
           <p className="text-sm text-gray-700">
@@ -83,10 +83,10 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* Buy / Quantity */}
-        <div className="flex flex-col items-center md:items-end">
+        <div className="flex flex-col items-center md:items-end w-full md:w-auto">
           {quantity > 0 ? (
             <>
-              <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+              <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden w-full md:w-auto mx-2 md:mx-0">
                 {quantity === 1 ? (
                   <button
                     onClick={decrement}
@@ -104,7 +104,7 @@ const ProductCard = ({ product }) => {
                     −
                   </button>
                 )}
-                <span className="px-4 text-sm font-semibold">
+                <span className="px-4 text-sm font-semibold flex-1 text-center">
                   {quantity}
                 </span>
                 <button
@@ -123,7 +123,7 @@ const ProductCard = ({ product }) => {
           ) : (
             <button
               onClick={handleBuy}
-              className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg text-sm"
+              className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg text-sm w-full md:w-auto mx-2 md:mx-0"
             >
               Buy This
             </button>
