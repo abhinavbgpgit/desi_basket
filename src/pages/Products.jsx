@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import CategoryCard from '../components/CategoryCard';
+import categoriesData from '../data/categories.json';
 import productsData from '../data/data.json';
+import { processCategoriesWithImages } from '../utils/categoryImages';
 
 const Products = () => {
   const { categoryName } = useParams();
@@ -13,41 +16,29 @@ const Products = () => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const categoriesRef = useRef(null);
 
-  // Category mapping - same as HomeDashboard
-  const categoryMapping = {
-    'Vegetables': 'vegetable',
-    'Fruits': 'fruit',
-    'Pulses & Dals': 'pulses_grains',
-    'Atta, Rice & Chura': 'pulses_grains',
-    'Cold Pressed & Natural Foods': 'oils_spices',
-    'Spices & Herbs': 'oils_spices',
-    'Health & Superfoods': 'locery',
-    'Grains': 'pulses_grains',
-    'Dairy': 'dairy',
-    'Desi Non-Veg': 'nonveg_local',
-    'Local Processed Foods': 'locery'
-  };
-
-  const categories = [
-    { name: "Vegetables", icon: "🥬", displayName: "Vegetables" },
-    { name: "Fruits", icon: "🍎", displayName: "Fruits" },
-    { name: "Pulses & Dals", icon: "🫘", displayName: "Pulses & Dals" },
-    { name: "Atta, Rice & Chura", icon: "🌾", displayName: "Atta, Rice & Chura" },
-    { name: "Cold Pressed & Natural Foods", icon: "🥥", displayName: "Cold Pressed & Natural Foods" },
-    { name: "Spices & Herbs", icon: "🌿", displayName: "Spices & Herbs" },
-    { name: "Health & Superfoods", icon: "💚", displayName: "Health & Superfoods" },
-    { name: "Grains", icon: "🌾", displayName: "Grains" },
-    { name: "Dairy", icon: "🥛", displayName: "Dairy" },
-    { name: "Desi Non-Veg", icon: "🍖", displayName: "Desi Non-Veg" },
-    { name: "Local Processed Foods", icon: "🧈", displayName: "Local Processed" },
-  ];
+  // Process categories with imported images
+  const categories = processCategoriesWithImages(categoriesData);
 
   // Update filtered products when category changes
   useEffect(() => {
-    const categoryKey = categoryMapping[selectedCategory];
-    const products = productsData.filter(
+    const category = categories.find(cat => cat.name === selectedCategory);
+    if (!category) {
+      setFilteredProducts([]);
+      return;
+    }
+
+    const categoryKey = category.categoryKey;
+    let products = productsData.filter(
       product => product.category === categoryKey
     );
+
+    // Filter by subcategories if specified
+    if (category.subcategories && category.subcategories.length > 0) {
+      products = products.filter(
+        product => category.subcategories.includes(product.subcategory)
+      );
+    }
+
     setFilteredProducts(products);
   }, [selectedCategory]);
 
@@ -109,14 +100,11 @@ const Products = () => {
     e.currentTarget.scrollLeft = scrollLeft - walk;
   };
 
-  const handleCategoryClick = (categoryName, e) => {
+  const handleCategoryClick = (e) => {
     if (isDragging) {
       e.preventDefault();
       setIsDragging(false);
-      return;
     }
-    setSelectedCategory(categoryName);
-    navigate(`/products/${encodeURIComponent(categoryName)}`);
   };
 
   const scrollLeftCategories = () => {
@@ -155,7 +143,7 @@ const Products = () => {
           {/* Categories Container */}
           <div
             ref={categoriesRef}
-            className={`flex gap-4 overflow-x-auto pb-2 scrollbar-hide ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none px-0 md:px-12`}
+            className={`flex gap-2 overflow-x-auto pb-2 scrollbar-hide mt-3 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none px-0 md:px-12`}
             onMouseDown={handleMouseDown}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
@@ -163,22 +151,13 @@ const Products = () => {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {categories.map((category) => (
-              <div
+              <CategoryCard
                 key={category.name}
-                onClick={(e) => handleCategoryClick(category.name, e)}
-                className={`rounded-xl text-center shadow-sm transition-all flex-shrink-0 w-28 md:w-40 p-1 md:p-2 border border-gray-200 ${
-                  selectedCategory === category.name
-                    ? 'bg-green-600 text-white shadow-md'
-                    : 'bg-white hover:shadow-md cursor-pointer'
-                }`}
-              >
-                <div className="text-xl md:text-2xl mb-0.5 md:mb-1">{category.icon}</div>
-                <div className={`text-xs font-medium ${
-                  selectedCategory === category.name ? 'text-white' : 'text-gray-700'
-                }`}>
-                  {category.name}
-                </div>
-              </div>
+                category={category}
+                onClick={handleCategoryClick}
+                isDragging={isDragging}
+                isSelected={selectedCategory === category.name}
+              />
             ))}
           </div>
 
@@ -198,9 +177,8 @@ const Products = () => {
 
         {/* Category Title and Count - Below Categories */}
         <div className="mt-6">
-          <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <span>{currentCategory?.icon}</span>
-            <span>{currentCategory?.displayName || selectedCategory}</span>
+          <h1 className="text-xl font-bold text-gray-800">
+            {currentCategory?.displayName || selectedCategory}
           </h1>
           <p className="text-sm text-gray-600 mt-1">{filteredProducts.length} items available</p>
         </div>

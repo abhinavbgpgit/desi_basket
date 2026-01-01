@@ -4,9 +4,12 @@ import { apiService as api } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import ComboPackCard from '../components/ComboPackCard';
 import FarmerCard from '../components/FarmerCard';
+import CategoryCard from '../components/CategoryCard';
+import BannerCarousel from '../components/BannerCarousel';
 import farmersData from '../data/farmers.json';
-import dashboardBanner from '../assets/dashboard_banner.png';
+import categoriesData from '../data/categories.json';
 import productsData from '../data/data.json';
+import { processCategoriesWithImages } from '../utils/categoryImages';
 
 const HomeDashboard = () => {
   const [categoryProducts, setCategoryProducts] = useState({});
@@ -19,20 +22,8 @@ const HomeDashboard = () => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const categoriesRef = useRef(null);
 
-  // Category mapping
-  const categoryMapping = {
-    'Vegetables': 'vegetable',
-    'Fruits': 'fruit',
-    'Pulses & Dals': 'pulses_grains',
-    'Atta, Rice & Chura': 'pulses_grains',
-    'Cold Pressed & Natural Foods': 'oils_spices',
-    'Spices & Herbs': 'oils_spices',
-    'Health & Superfoods': 'locery',
-    'Grains': 'pulses_grains',
-    'Dairy': 'dairy',
-    'Desi Non-Veg': 'nonveg_local',
-    'Local Processed Foods': 'locery'
-  };
+  // Process categories with imported images
+  const categories = processCategoriesWithImages(categoriesData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,15 +37,22 @@ const HomeDashboard = () => {
         // Group products by category and get random 4 from each
         const grouped = {};
         
-        Object.keys(categoryMapping).forEach(categoryName => {
-          const categoryKey = categoryMapping[categoryName];
-          const categoryItems = productsData.filter(
+        categories.forEach(category => {
+          const categoryKey = category.categoryKey;
+          let categoryItems = productsData.filter(
             product => product.category === categoryKey
           );
+
+          // Filter by subcategories if specified
+          if (category.subcategories && category.subcategories.length > 0) {
+            categoryItems = categoryItems.filter(
+              product => category.subcategories.includes(product.subcategory)
+            );
+          }
           
           // Shuffle and take 4 random items
           const shuffled = [...categoryItems].sort(() => Math.random() - 0.5);
-          grouped[categoryName] = shuffled.slice(0, 4);
+          grouped[category.name] = shuffled.slice(0, 4);
         });
 
         setCategoryProducts(grouped);
@@ -98,19 +96,6 @@ const HomeDashboard = () => {
     };
   }, [isDragging, startX, scrollLeft]);
 
-  const categories = [
-    { name: "Vegetables", icon: "🥬", route: "/products/Vegetables", displayName: "Vegetables" },
-    { name: "Fruits", icon: "🍎", route: "/products/Fruits", displayName: "Fruits" },
-    { name: "Pulses & Dals", icon: "🫘", route: "/products/Pulses & Dals", displayName: "Pulses & Dals" },
-    { name: "Atta, Rice & Chura", icon: "🌾", route: "/products/Atta, Rice & Chura", displayName: "Atta, Rice & Chura" },
-    { name: "Cold Pressed & Natural Foods", icon: "🥥", route: "/products/Cold Pressed & Natural Foods", displayName: "Cold Pressed & Natural Foods" },
-    { name: "Spices & Herbs", icon: "🌿", route: "/products/Spices & Herbs", displayName: "Spices & Herbs" },
-    { name: "Health & Superfoods", icon: "💚", route: "/products/Health & Superfoods", displayName: "Health & Superfoods" },
-    { name: "Grains", icon: "🌾", route: "/products/Grains", displayName: "Grains" },
-    { name: "Dairy", icon: "🥛", route: "/products/Dairy", displayName: "Dairy" },
-    { name: "Desi Non-Veg", icon: "🍖", route: "/products/Desi Non-Veg", displayName: "Desi Non-Veg" },
-    { name: "Local Processed Foods", icon: "🧈", route: "/products/Local Processed Foods", displayName: "Local Processed" },
-  ];
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -158,7 +143,7 @@ const HomeDashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="p-4">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
+          {/* <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2> */}
           <div className="relative">
             <div className="flex gap-4 overflow-x-auto pb-2 px-12 scrollbar-hide">
               {[...Array(11)].map((_, index) => (
@@ -227,28 +212,15 @@ const HomeDashboard = () => {
 
   return (
     <div className="min-h-screen bg-green-50">
-      {/* Banner Section */}
-      <div className="relative w-full overflow-hidden">
-        <img
-          src={dashboardBanner}
-          alt="Dashboard Banner"
-          className="w-full h-auto object-cover"
-        />
-        <Link
-          to="/category/all"
-          className="hidden md:block absolute bg-white hover:bg-gray-50 text-green-600 font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
-          style={{ bottom: '15px', left: '280px' }}
-        >
-          Buy Now
-        </Link>
-      </div>
+      {/* Banner Carousel Section */}
+      <BannerCarousel />
 
       {/* Categories */}
-      <div className="p-4">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Shop by Category</h2>
+      <div className="pt-2 bg-green-400 mt-2 rounded-xl">
+        {/* <h2 className="text-base font-semibold text-gray-800 mb-4">Shop by Category</h2> */}
         <div className="relative">
           {/* Left Gradient Background - Hidden on mobile */}
-          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/20 to-transparent z-5 pointer-events-none"></div>
+          {/* <div className="hidden md:block absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/20 to-transparent z-5 pointer-events-none"></div> */}
 
           {/* Left Arrow - Hidden on mobile */}
           <button
@@ -263,7 +235,7 @@ const HomeDashboard = () => {
           {/* Categories Container */}
           <div
             ref={categoriesRef}
-            className={`flex gap-4 overflow-x-auto pb-2 scrollbar-hide ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none px-0 md:px-12`}
+            className={`flex gap-2 overflow-x-auto pb-2 scrollbar-hide mt-0 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none px-0 md:px-12`}
             onMouseDown={handleMouseDown}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
@@ -271,20 +243,17 @@ const HomeDashboard = () => {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {categories.map((category) => (
-              <Link
+              <CategoryCard
                 key={category.name}
-                to={category.route}
-                className="bg-white rounded-xl text-center shadow-sm hover:shadow-md transition-shadow flex-shrink-0 w-28 md:w-40 p-1 md:p-2 border border-gray-200"
+                category={category}
                 onClick={handleCategoryClick}
-              >
-                <div className="text-xl md:text-2xl mb-0.5 md:mb-1">{category.icon}</div>
-                <div className="text-xs font-medium text-gray-700">{category.name}</div>
-              </Link>
+                isDragging={isDragging}
+              />
             ))}
           </div>
 
           {/* Right Gradient Background - Hidden on mobile */}
-          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/20 to-transparent z-5 pointer-events-none"></div>
+          {/* <div className="hidden md:block absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/20 to-transparent z-5 pointer-events-none"></div> */}
 
           {/* Right Arrow - Hidden on mobile */}
           <button
@@ -304,11 +273,10 @@ const HomeDashboard = () => {
         if (products.length === 0) return null;
 
         return (
-          <div key={category.name} className="p-4 mt-6">
+          <div key={category.name} className="pt-0 mt-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                <span>{category.icon}</span>
-                <span>{category.displayName}</span>
+              <h2 className="text-lg font-semibold text-gray-800">
+                {category.displayName}
               </h2>
               <Link
                 to={category.route}
@@ -320,7 +288,7 @@ const HomeDashboard = () => {
                 </svg>
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:flex md:overflow-x-auto gap-4 pb-4 scrollbar-hide">
+            <div className="grid grid-cols-2 md:flex md:overflow-x-auto gap-2 p-1 scrollbar-hide">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

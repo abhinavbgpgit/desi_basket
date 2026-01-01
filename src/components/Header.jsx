@@ -93,7 +93,7 @@ const Header = () => {
     setSearchQuery('');
     setShowSearchDropdown(false);
     setSearchResults([]);
-    navigate(`/app/product/${productId}`);
+    navigate(`/product/${productId}`);
   };
 
   const handleLogout = () => {
@@ -109,7 +109,7 @@ const Header = () => {
     >
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center gap-4">
         {/* Logo */}
-        <Link to="/app" className="flex items-center flex-shrink-0">
+        <Link to="/" className="flex items-center flex-shrink-0">
           <img
             src={desiLogo}
             alt="Desi Basket"
@@ -170,9 +170,9 @@ const Header = () => {
         {/* Desktop Navigation Menu */}
         <nav className="hidden md:flex items-center space-x-1 flex-shrink-0">
           <Link
-            to="/app"
+            to="/"
             className={`flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
-              location.pathname === '/app'
+              location.pathname === '/'
                 ? 'text-green-600 bg-green-50'
                 : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
             }`}
@@ -182,7 +182,7 @@ const Header = () => {
           </Link>
           
           <Link
-            to="/app/farmers"
+            to="/farmers"
             className={`flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
               location.pathname.includes('/farmers')
                 ? 'text-green-600 bg-green-50'
@@ -194,7 +194,7 @@ const Header = () => {
           </Link>
           
           <Link
-            to="/app/requests"
+            to="/requests"
             className={`flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
               location.pathname.includes('/requests')
                 ? 'text-green-600 bg-green-50'
@@ -211,7 +211,7 @@ const Header = () => {
           {/* Right side icons */}
           {/* Cart Icon */}
           <Link
-            to="/app/cart"
+            to="/cart"
             className={`relative flex flex-col items-center px-3 py-1.5 rounded-lg transition-colors ${
               location.pathname.includes('/cart')
                 ? 'text-green-600 bg-green-50'
@@ -254,7 +254,7 @@ const Header = () => {
               {showProfileDropdown && (
                 <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-fadeIn">
                   <Link
-                    to="/app/profile"
+                    to="/profile"
                     onClick={() => setShowProfileDropdown(false)}
                     className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
                   >
@@ -263,7 +263,7 @@ const Header = () => {
                   </Link>
                   
                   <Link
-                    to="/app/requests"
+                    to="/requests"
                     onClick={() => setShowProfileDropdown(false)}
                     className="flex items-center px-4 py-3 hover:bg-gray-50 transition-colors"
                   >

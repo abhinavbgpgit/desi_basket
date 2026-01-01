@@ -1,0 +1,102 @@
+[
+  {
+    "id": "vegetables",
+    "name": "Vegetables",
+    "displayName": "Vegetables",
+    "image": "/src/assets/category/category_vegitable.png",
+    "route": "/products/Vegetables",
+    "categoryKey": "vegetable"
+  },
+  {
+    "id": "fruits",
+    "name": "Fruits",
+    "displayName": "Fruits",
+    "image": "/src/assets/category/category_fruits.png",
+    "route": "/products/Fruits",
+    "categoryKey": "fruit"
+  },
+  {
+    "id": "pulses",
+    "name": "Pulses",
+    "displayName": "Pulses",
+    "image": "/src/assets/category/category_dal.png",
+    "route": "/products/Pulses",
+    "categoryKey": "pulses_grains",
+    "subcategories": ["dal", "arhar", "moong", "urad", "chana", "masoor", "toor"]
+  },
+  {
+    "id": "atta",
+    "name": "Atta",
+    "displayName": "Atta",
+    "image": "/src/assets/category/category_aata.png",
+    "route": "/products/Atta",
+    "categoryKey": "pulses_grains",
+    "subcategories": ["flour"]
+  },
+  {
+    "id": "rice",
+    "name": "Rice",
+    "displayName": "Rice",
+    "image": "/src/assets/category/category_rice.png",
+    "route": "/products/Rice",
+    "categoryKey": "pulses_grains",
+    "subcategories": ["rice"]
+  },
+  {
+    "id": "chura",
+    "name": "Chura",
+    "displayName": "Chura",
+    "image": "/src/assets/category/category_chura.png",
+    "route": "/products/Chura",
+    "categoryKey": "pulses_grains",
+    "subcategories": ["chura"]
+  },
+  {
+    "id": "spices",
+    "name": "Spices",
+    "displayName": "Spices",
+    "image": "/src/assets/category/category_spices.png",
+    "route": "/products/Spices",
+    "categoryKey": "oils_spices"
+  },
+  {
+    "id": "herbs",
+    "name": "Herbs",
+    "displayName": "Herbs",
+    "image": "/src/assets/category/category_herbs.png",
+    "route": "/products/Herbs",
+    "categoryKey": "herb"
+  },
+  {
+    "id": "superfoods",
+    "name": "Superfoods",
+    "displayName": "Superfoods",
+    "image": "/src/assets/category/category_superfoods.png",
+    "route": "/products/Superfoods",
+    "categoryKey": "locery"
+  },
+  {
+    "id": "dairy",
+    "name": "Dairy",
+    "displayName": "Dairy",
+    "image": "/src/assets/category/category_dairy.png",
+    "route": "/products/Dairy",
+    "categoryKey": "dairy"
+  },
+  {
+    "id": "desi_nonveg",
+    "name": "Desi Non-Veg",
+    "displayName": "Desi Non-Veg",
+    "image": "/src/assets/category/category_non_veg.png",
+    "route": "/products/Desi Non-Veg",
+    "categoryKey": "nonveg_local"
+  },
+  {
+    "id": "local_processed",
+    "name": "Local Processed",
+    "displayName": "Local Processed",
+    "image": "/src/assets/category/category_local_processed.png",
+    "route": "/products/Local Processed Foods",
+    "categoryKey": "locery"
+  }
+]
