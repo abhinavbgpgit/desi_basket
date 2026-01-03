@@ -49,8 +49,8 @@ const FarmerCard = ({ farmer, compact = false }) => {
   if (compact) {
     // Compact version for grid layouts (HomeDashboard)
     return (
-      <Link 
-        to={`/app/farmer/${farmer.id}`}
+      <Link
+        to={`/farmer/${farmer.id}`}
         className="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-green-300 transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
       >
         <div className="flex h-full ">
@@ -255,7 +255,7 @@ const FarmerCard = ({ farmer, compact = false }) => {
           {/* CTA Button */}
           <div className="mt-3 pt-3 border-t border-gray-200">
             <Link
-              to={`/app/farmer/${farmer.id}`}
+              to={`/farmer/${farmer.id}`}
               className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg transition-colors duration-200 group"
             >
               <span className="text-sm font-semibold">View Profile</span>

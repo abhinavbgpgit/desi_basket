@@ -121,7 +121,7 @@ const FarmerDetails = () => {
           <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Farmer Data</h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <Link
-            to="/app/farmers"
+            to="/farmers"
             className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Farmers
@@ -319,7 +319,7 @@ const FarmerDetails = () => {
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <Link
-              to="/app/farmers"
+              to="/farmers"
               className="inline-flex items-center text-green-600 hover:text-green-700 transition-colors font-medium"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -622,7 +622,7 @@ const FarmerDetails = () => {
                       <h3 className="font-medium text-sm text-gray-800 truncate">{product.name}</h3>
                       <p className="text-sm text-gray-600">₹{product.price}/{product.unit}</p>
                       <Link
-                        to={`/app/product/${product.id}`}
+                        to={`/product/${product.id}`}
                         className="block text-center mt-2 text-xs bg-green-600 text-white py-1 rounded hover:bg-green-700 transition-colors"
                       >
                         View Product
