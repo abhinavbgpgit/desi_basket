@@ -45,16 +45,16 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-[rgba(0,0,0,0.12)_0px_1px_3px,_rgba(0,0,0,0.24)_0px_1px_2px] pt-2 px-2 md:px-2 pb-3 w-full flex flex-col">
+    <div className="bg-white rounded-xl shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)] pt-2 px-2 md:px-[15px] pb-3 w-full flex flex-col h-auto flex-shrink-0" style={{ minHeight: '370px' }}>
       
       {/* Image */}
-      <div className="bg-red-300 rounded-lg overflow-hidden mb-3 flex justify-center 
-      shadow-[rgba(6,24,44,0.4)_0px_0px_0px_2px,_rgba(6,24,44,0.65)_0px_4px_6px_-1px,_rgba(255,255,255,0.08)_0px_1px_0px_inset]
+      <div className="bg-red-300 rounded-lg overflow-hidden mb-3 flex justify-center md:-mx-[7px]
+      shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)]
       ">
         <img
           src={product.images?.[0] || product.image || '/placeholder-product.jpg'}
           alt={product.name}
-          className="w-full h-32 object-cover"
+          className="w-full h-36 object-cover"
         />
       </div>
 
@@ -74,7 +74,7 @@ const ProductCard = ({ product }) => {
         
         {/* Price - Mobile: Single line, Desktop: Two lines */}
         <div className="flex items-center gap-2 md:flex-col md:items-start md:gap-0">
-          <p className="text-red-600 font-semibold text-base md:text-xl">
+          <p className="text-red-600 font-semibold text-sm md:text-xl">
             ₹{totalPrice} Rs
           </p>
           <p className="text-sm text-gray-700">
@@ -116,9 +116,20 @@ const ProductCard = ({ product }) => {
               </div>
 
               {/* EXACT BELOW BUTTON */}
-              <p className="text-green-600 text-sm mt-1 font-medium">
-                added item into cart
-              </p>
+              <div className="flex flex-col items-center md:items-end gap-1 mt-1">
+                <p className="text-green-600 text-sm font-medium">
+                  added item into cart
+                </p>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/weekly-cart');
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-1.5 rounded-lg text-xs w-full md:w-auto"
+                >
+                  Go to Cart
+                </button>
+              </div>
             </>
           ) : (
             <button
