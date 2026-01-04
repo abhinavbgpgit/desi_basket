@@ -90,7 +90,7 @@ const WeeklyCart = () => {
     return (
       <div className="flex items-center p-4 border-b border-gray-100">
         <img
-          src={item.images?.[0] || '/placeholder-product.jpg'}
+          src={item.images?.[0] || item.image || '/placeholder-product.jpg'}
           alt={item.name}
           className="w-16 h-16 rounded-lg object-cover mr-4"
           onError={(e) => {

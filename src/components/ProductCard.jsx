@@ -44,13 +44,22 @@ const ProductCard = ({ product }) => {
     }
   };
 
+  const handleCardClick = () => {
+    navigate(`/product/${product.id}`);
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)] pt-2 px-2 md:px-[15px] pb-3 w-full flex flex-col h-auto flex-shrink-0" style={{ minHeight: '296px' }}>
+    <div
+      onClick={handleCardClick}
+      className="bg-white rounded-xl md:min-h-[296px] shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)] pt-2 px-2 md:px-[15px] pb-3 w-full flex flex-col h-auto flex-shrink-0 cursor-pointer hover:shadow-lg transition-shadow"
+     
+    >
       
       {/* Image */}
-      <div className="bg-red-300 rounded-lg overflow-hidden mb-3 flex justify-center md:-mx-[7px]
-      shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)]
-      ">
+      <div
+        className="bg-red-300 rounded-lg overflow-hidden mb-3 flex justify-center md:-mx-[7px]
+        shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)] hover:opacity-90 transition-opacity
+        ">
         <img
           src={product.images?.[0] || product.image || '/placeholder-product.jpg'}
           alt={product.name}
@@ -59,12 +68,16 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-semibold md:text-xl md:font-bold text-gray-900 mb-1 ">
+      <h3
+        className="text-sm font-semibold md:text-xl md:font-bold text-gray-900 mb-1 hover:text-green-600 transition-colors"
+      >
         {product.name}
       </h3>
 
       {/* Description */}
-      <p className="text-xs md:text-sm text-gray-500 mb-3 leading-snug flex-grow">
+      <p
+        className="text-xs md:text-sm text-gray-500 mb-3 leading-snug flex-grow hover:text-gray-700 transition-colors"
+      >
         {product.description ||
           'High Vitamin C, very good for health and brain , eat daily'}
       </p>
@@ -123,7 +136,7 @@ const ProductCard = ({ product }) => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate('/weekly-cart');
+                    navigate('/cart');
                   }}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-1.5 rounded-lg text-xs w-full md:w-auto"
                 >

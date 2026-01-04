@@ -491,18 +491,37 @@ const ProductDetails = () => {
         </div>
 
         {/* Total Price */}
-        <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl shadow-lg p-5 text-white">
+        <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-5">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-lg font-semibold">Total Amount</span>
-            <span className="text-3xl font-bold">₹{(product.price * quantity).toFixed(2)}</span>
+            <span className="text-lg font-semibold text-black">Total Amount</span>
+            <span className="text-3xl font-bold text-black">₹{(product.price * quantity).toFixed(2)}</span>
           </div>
           
-          <button
-            onClick={handleAddToCart}
-            className="w-full bg-white text-green-700 py-4 rounded-xl font-bold text-lg hover:bg-green-50 transition-all transform hover:scale-105 shadow-lg"
-          >
-            Add to Weekly Request
-          </button>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={handleAddToCart}
+              className="bg-white text-green-700 py-4 rounded-xl font-bold text-base hover:bg-green-50 transition-all transform hover:scale-105 shadow-md border border-gray-200"
+            >
+              Add to Weekly Request
+            </button>
+            <button
+              onClick={() => {
+                if (!user) {
+                  navigate('/auth');
+                  return;
+                }
+                addToCart({
+                  ...product,
+                  quantity,
+                  deliveryDay: selectedDeliveryDay
+                });
+                navigate('/cart');
+              }}
+              className="bg-green-600 text-white py-4 rounded-xl font-bold text-base hover:bg-green-700 transition-all transform hover:scale-105 shadow-md border border-gray-200"
+            >
+              Go to Cart
+            </button>
+          </div>
         </div>
 
         {/* Delivery Info */}

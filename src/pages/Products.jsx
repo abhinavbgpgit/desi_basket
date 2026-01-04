@@ -49,6 +49,11 @@ const Products = () => {
     }
   }, [categoryName]);
 
+  // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Drag scroll handlers
   useEffect(() => {
     const handleGlobalMouseUp = () => {
