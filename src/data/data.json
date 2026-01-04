@@ -208,32 +208,6 @@
     "price": 30
   },
   {
-    "id": "pulse_toor",
-    "name": "Toor Dal (Arhar)",
-    "category": "pulses_grains",
-    "subcategory": "dal",
-    "image": "https://organofarmstore.co.in/wp-content/uploads/2023/09/toor-dal.jpg",
-    "description": "Toor dal — locally processed",
-    "farmer_sold": true,
-    "local_only": true,
-    "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=toor+dal&search_simple=1&action=process&json=1",
-    "price": 140
-  },
-  {
-    "id": "pulse_moong",
-    "name": "Moong Dal",
-    "category": "pulses_grains",
-    "subcategory": "dal",
-    "image": "https://nuttyyogi.com/cdn/shop/products/MOOONG.jpg",
-    "description": "Yellow moong dal — small farmers",
-    "farmer_sold": true,
-    "local_only": true,
-    "quantity_units": "kg",
-    "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=moong+dal&search_simple=1&action=process&json=1",
-    "price": 130
-  },
-  {
     "id": "grain_rice",
     "name": "Rice (Local / Unpolished)",
     "category": "pulses_grains",
@@ -473,12 +447,15 @@
     "category": "herb",
     "subcategory": "bulb",
     "image": "https://static.toiimg.com/thumb/resizemode-4,width-1280,height-720,msid-115047312/115047312.jpg",
+    "bgImage":"https://static.toiimg.com/thumb/resizemode-4,width-1280,height-720,msid-115047312/115047312.jpg",
     "description": "Fresh garlic — farmer harvested",
     "farmer_sold": true,
     "local_only": false,
     "quantity_units": "kg",
     "off_reference": "https://world.openfoodfacts.org/cgi/search.pl?search_terms=garlic&search_simple=1&action=process&json=1",
-    "price": 120
+    "price": 120,
+    "available": true,
+    "availibityDate": "2024-09-15"
   },
   {
     "id": "veg_cucumber",
@@ -623,7 +600,7 @@
     "name": "Moong Dal",
     "category": "pulses_grains",
     "subcategory": "moong",
-    "image": "https://chakkiwalle.com/cdn/shop/files/washed-moong-dal-1670841282-6668815.jpg?v=1708602275&width=416",
+    "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2023/08/moong-dal.jpg",
     "description": "Organic split yellow lentils, easy to digest and perfect for traditional dal preparations",
     "farmer_sold": true,
     "local_only": true,

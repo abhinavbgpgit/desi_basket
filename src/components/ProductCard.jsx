@@ -45,7 +45,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)] pt-2 px-2 md:px-[15px] pb-3 w-full flex flex-col h-auto flex-shrink-0" style={{ minHeight: '370px' }}>
+    <div className="bg-white rounded-xl shadow-[0px_1px_3px_rgba(0,0,0,0.12),0px_1px_2px_rgba(0,0,0,0.24)] pt-2 px-2 md:px-[15px] pb-3 w-full flex flex-col h-auto flex-shrink-0" style={{ minHeight: '296px' }}>
       
       {/* Image */}
       <div className="bg-red-300 rounded-lg overflow-hidden mb-3 flex justify-center md:-mx-[7px]
@@ -54,17 +54,17 @@ const ProductCard = ({ product }) => {
         <img
           src={product.images?.[0] || product.image || '/placeholder-product.jpg'}
           alt={product.name}
-          className="w-full h-36 object-cover"
+          className="w-full h-[90px] md:h-36 object-cover"
         />
       </div>
 
       {/* Title */}
-      <h3 className="text-xl font-bold text-gray-900 mb-1">
+      <h3 className="text-sm font-semibold md:text-xl md:font-bold text-gray-900 mb-1 ">
         {product.name}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-gray-500 mb-3 leading-snug flex-grow">
+      <p className="text-xs md:text-sm text-gray-500 mb-3 leading-snug flex-grow">
         {product.description ||
           'High Vitamin C, very good for health and brain , eat daily'}
       </p>
@@ -117,7 +117,7 @@ const ProductCard = ({ product }) => {
 
               {/* EXACT BELOW BUTTON */}
               <div className="flex flex-col items-center md:items-end gap-1 mt-1">
-                <p className="text-green-600 text-sm font-medium">
+                <p className="text-green-800 text-xs md:text-sm ">
                   added item into cart
                 </p>
                 <button
