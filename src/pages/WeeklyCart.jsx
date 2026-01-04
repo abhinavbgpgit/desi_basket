@@ -7,14 +7,14 @@ import { apiService as api } from '../services/api';
 const WeeklyCart = () => {
   const { cartItems, updateQuantity, removeItem, clearCart, getCartTotal } = useCart();
   const { user } = useAuth();
-  const [deliveryDay, setDeliveryDay] = useState('Friday');
+  const [deliveryDays, setDeliveryDays] = useState(['Friday']);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [showAddressPrompt, setShowAddressPrompt] = useState(false);
   const [hasAddress, setHasAddress] = useState(false);
   const navigate = useNavigate();
 
-  const deliveryDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   useEffect(() => {
     // Check if user has address
@@ -59,10 +59,10 @@ const WeeklyCart = () => {
         items: cartItems.map(item => ({
           productId: item.id,
           quantity: item.quantity,
-          deliveryDay: item.deliveryDay || deliveryDay
+          deliveryDays: item.deliveryDays || deliveryDays
         })),
         totalAmount: getCartTotal(),
-        deliveryDay
+        deliveryDays
       };
 
       const response = await api.createRequest(requestData);
@@ -73,7 +73,7 @@ const WeeklyCart = () => {
           state: {
             requestId: response.requestId,
             items: cartItems,
-            deliveryDay,
+            deliveryDays,
             totalAmount: getCartTotal()
           }
         });
@@ -171,14 +171,21 @@ const WeeklyCart = () => {
 
         {/* Delivery Day Selection */}
         <div className="bg-white rounded-xl p-4 shadow-sm mb-6">
-          <h3 className="font-semibold text-gray-800 mb-3">Preferred Delivery Day</h3>
+          <h3 className="font-semibold text-gray-800 mb-3">Preferred Delivery Days (Select Multiple)</h3>
+          <p className="text-xs text-gray-500 mb-3">Choose one or more days for delivery</p>
           <div className="grid grid-cols-3 gap-2">
-            {deliveryDays.map((day) => (
+            {availableDays.map((day) => (
               <button
                 key={day}
-                onClick={() => setDeliveryDay(day)}
+                onClick={() => {
+                  setDeliveryDays(prev =>
+                    prev.includes(day)
+                      ? prev.filter(d => d !== day)
+                      : [...prev, day]
+                  );
+                }}
                 className={`py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
-                  deliveryDay === day
+                  deliveryDays.includes(day)
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
@@ -187,6 +194,11 @@ const WeeklyCart = () => {
               </button>
             ))}
           </div>
+          {deliveryDays.length > 0 && (
+            <p className="text-xs text-green-600 mt-2">
+              Selected: {deliveryDays.join(', ')}
+            </p>
+          )}
         </div>
 
         {/* Order Summary */}

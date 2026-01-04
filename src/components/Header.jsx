@@ -114,7 +114,7 @@ const Header = () => {
             src={desiLogo}
             alt="Desi Basket"
             className={`transition-all duration-300 ${
-              isScrolled ? 'w-32 md:w-40' : 'w-32 md:w-40'
+              isScrolled ? 'w-32 md:w-40' : 'w-32 md:w-16'
             }`}
           />
         </Link>
