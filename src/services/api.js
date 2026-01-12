@@ -543,8 +543,43 @@ export const apiService = {
   },
 
   // Farmer endpoints
-  getAllFarmers: () => {
-    return Promise.resolve(mockFarmers);
+  getAllFarmers: async () => {
+    try {
+      const response = await api.get('/api/farmers');
+      
+      // Transform API response to match FarmerCard component format
+      if (response.success && response.data) {
+        return response.data.map(farmer => ({
+          id: farmer.id,
+          name: farmer.farmer_name || farmer.user?.first_name + ' ' + farmer.user?.last_name || 'Unknown Farmer',
+          farmName: farmer.farm_name,
+          location: [farmer.village, farmer.district, farmer.state].filter(Boolean).join(', ') || 'Location not specified',
+          specialties: farmer.products && farmer.products.length > 0
+            ? farmer.products.slice(0, 3)
+            : ['Local Produce'],
+          yearsExperience: farmer.experience_years || 0,
+          certifications: farmer.agreed_to_terms ? ['Verified Farmer'] : [],
+          contact: farmer.mobile || farmer.whatsapp,
+          image: farmer.profile_photo || '/farmer-placeholder.jpg',
+          description: farmer.journey || 'Dedicated farmer providing quality produce',
+          rating: 4.5, // Default rating
+          reviewCount: 50, // Default review count
+          farmSize: farmer.farm_size,
+          mainProducts: farmer.products || [],
+          gallery: farmer.gallery || [],
+          coverPhoto: farmer.cover_photo,
+          isCompleted: farmer.is_completed,
+          whatsapp: farmer.whatsapp
+        }));
+      }
+      
+      // Fallback to mock data if API fails
+      return mockFarmers;
+    } catch (error) {
+      console.error('Error fetching farmers from API:', error);
+      // Return mock data as fallback
+      return mockFarmers;
+    }
   },
 
   getFarmerDetails: (farmerId) => {

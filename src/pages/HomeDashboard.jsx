@@ -6,7 +6,6 @@ import ComboPackCard from '../components/ComboPackCard';
 import FarmerCard from '../components/FarmerCard';
 import CategoryCard from '../components/CategoryCard';
 import BannerCarousel from '../components/BannerCarousel';
-import farmersData from '../data/farmers.json';
 import categoriesData from '../data/categories.json';
 import productsData from '../data/data.json';
 import { processCategoriesWithImages } from '../utils/categoryImages';
@@ -15,6 +14,7 @@ const HomeDashboard = () => {
   const [categoryProducts, setCategoryProducts] = useState({});
   const [comboPacks, setComboPacks] = useState([]);
   const [activeRequest, setActiveRequest] = useState(null);
+  const [farmers, setFarmers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isDragging, setIsDragging] = useState(false);
@@ -29,9 +29,10 @@ const HomeDashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [packsResponse, requestResponse] = await Promise.all([
+        const [packsResponse, requestResponse, farmersResponse] = await Promise.all([
           api.getComboPacks(),
-          api.getActiveRequest()
+          api.getActiveRequest(),
+          api.getAllFarmers()
         ]);
 
         // Group products by category and get random 4 from each
@@ -58,6 +59,7 @@ const HomeDashboard = () => {
         setCategoryProducts(grouped);
         setComboPacks(packsResponse);
         setActiveRequest(requestResponse);
+        setFarmers(farmersResponse);
       } catch (error) {
         console.error('Failed to load data:', error);
         setError('Failed to load data. Please try again.');
@@ -344,43 +346,46 @@ const HomeDashboard = () => {
       )}
 
       {/* Farmers Section */}
-      <div className="p-4 mt-6 bg-white rounded-xl relative">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">Meet Our Local Farmers</h2>
-          <Link to="/farmers" className="text-green-600 text-sm hover:text-green-700 flex items-center">
-            View All {farmersData.farmers.length} Farmers
-            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Display first 5 farmers using FarmerCard component */}
-          {farmersData.farmers.slice(0, 5).map((farmer) => (
-            <FarmerCard key={farmer.id} farmer={farmer} />
-          ))}
-
-          {/* Browse All Farmers Card */}
-          <Link
-            to="/farmers"
-            className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 text-center hover:from-green-100 hover:to-emerald-100 transition-all duration-300 border-2 border-green-200 hover:border-green-300 flex flex-col items-center justify-center group"
-          >
-            <div className="w-14 h-14 rounded-full mx-auto mb-3 bg-green-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.273-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.273.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <h3 className="font-bold text-gray-900 mb-1 text-sm">Explore All Farmers</h3>
-            <p className="text-xs text-gray-600 mb-3">Discover {farmersData.farmers.length}+ local farmers</p>
-            <span className="inline-flex items-center text-green-600 text-sm font-semibold group-hover:text-green-700">
-              Browse All
-              <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {/* Farmers Section */}
+      {farmers.length > 0 && (
+        <div className="p-4 mt-6 bg-white rounded-xl relative">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold text-gray-800">Meet Our Local Farmers</h2>
+            <Link to="/farmers" className="text-green-600 text-sm hover:text-green-700 flex items-center">
+              View All {farmers.length} Farmers
+              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </span>
-          </Link>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Display first 5 farmers using FarmerCard component */}
+            {farmers.slice(0, 5).map((farmer) => (
+              <FarmerCard key={farmer.id} farmer={farmer} compact={true} />
+            ))}
+
+            {/* Browse All Farmers Card */}
+            <Link
+              to="/farmers"
+              className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 text-center hover:from-green-100 hover:to-emerald-100 transition-all duration-300 border-2 border-green-200 hover:border-green-300 flex flex-col items-center justify-center group"
+            >
+              <div className="w-14 h-14 rounded-full mx-auto mb-3 bg-green-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.273-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.273.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <h3 className="font-bold text-gray-900 mb-1 text-sm">Explore All Farmers</h3>
+              <p className="text-xs text-gray-600 mb-3">Discover {farmers.length}+ local farmers</p>
+              <span className="inline-flex items-center text-green-600 text-sm font-semibold group-hover:text-green-700">
+                Browse All
+                <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
