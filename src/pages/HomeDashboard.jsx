@@ -35,6 +35,12 @@ const HomeDashboard = () => {
           api.getAllFarmers()
         ]);
 
+        // Console log farmers response
+        console.log('Farmers Response in HomeDashboard:', farmersResponse);
+        farmersResponse.forEach(farmer => {
+          console.log(`Farmer ${farmer.id} - Name: ${farmer.name}, Profile Photo: ${farmer.profile_photo}`);
+        });
+
         // Group products by category and get random 4 from each
         const grouped = {};
         

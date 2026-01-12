@@ -18,6 +18,9 @@ import farmer12 from '../assets/farmers/farmer12.png';
 import farmer13 from '../assets/farmers/farmer13.png';
 
 const FarmerCard = ({ farmer, compact = false }) => {
+  console.log('Rendering FarmerCard for:', farmer);
+  console.log('Farmer profile_photo:', farmer.profile_photo);
+  console.log('Farmer image:', farmer.image);
   // Map image references to imported images
   const imageMap = {
     'farmer1.jpg': farmer1,
@@ -57,7 +60,8 @@ const FarmerCard = ({ farmer, compact = false }) => {
           {/* Image Section - Mobile Portrait Aspect Ratio (3:4) */}
           <div className="w-2/5 relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
             <img
-              src={getImagePath(farmer.image)}
+              // src={getImagePath(farmer.image)}
+              src={farmer.profile_photo}
               alt={farmer.name}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               onError={(e) => {

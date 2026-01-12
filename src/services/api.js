@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api.farmfresh.com/v1',
+  baseURL: import.meta.env.VITE_BASE_URL || 'https://node-backend-pz3j.onrender.com/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -547,30 +547,41 @@ export const apiService = {
     try {
       const response = await api.get('/api/farmers');
       
+      // Console log the API response
+      console.log('API Response from /api/farmers:', response);
+      console.log('Farmers data:', response.data);
+      
       // Transform API response to match FarmerCard component format
       if (response.success && response.data) {
-        return response.data.map(farmer => ({
-          id: farmer.id,
-          name: farmer.farmer_name || farmer.user?.first_name + ' ' + farmer.user?.last_name || 'Unknown Farmer',
-          farmName: farmer.farm_name,
-          location: [farmer.village, farmer.district, farmer.state].filter(Boolean).join(', ') || 'Location not specified',
-          specialties: farmer.products && farmer.products.length > 0
-            ? farmer.products.slice(0, 3)
-            : ['Local Produce'],
-          yearsExperience: farmer.experience_years || 0,
-          certifications: farmer.agreed_to_terms ? ['Verified Farmer'] : [],
-          contact: farmer.mobile || farmer.whatsapp,
-          image: farmer.profile_photo || '/farmer-placeholder.jpg',
-          description: farmer.journey || 'Dedicated farmer providing quality produce',
-          rating: 4.5, // Default rating
-          reviewCount: 50, // Default review count
-          farmSize: farmer.farm_size,
-          mainProducts: farmer.products || [],
-          gallery: farmer.gallery || [],
-          coverPhoto: farmer.cover_photo,
-          isCompleted: farmer.is_completed,
-          whatsapp: farmer.whatsapp
-        }));
+        const transformedFarmers = response.data.map(farmer => {
+          console.log(`Farmer ${farmer.id} profile_photo:`, farmer.profile_photo);
+          return {
+            id: farmer.id,
+            name: farmer.farmer_name || farmer.user?.first_name + ' ' + farmer.user?.last_name || 'Unknown Farmer',
+            farmName: farmer.farm_name,
+            location: [farmer.village, farmer.district, farmer.state].filter(Boolean).join(', ') || 'Location not specified',
+            specialties: farmer.products && farmer.products.length > 0
+              ? farmer.products.slice(0, 3)
+              : ['Local Produce'],
+            yearsExperience: farmer.experience_years || 0,
+            certifications: farmer.agreed_to_terms ? ['Verified Farmer'] : [],
+            contact: farmer.mobile || farmer.whatsapp,
+            image: farmer.profile_photo || '/farmer-placeholder.jpg',
+            profile_photo: farmer.profile_photo || '/farmer-placeholder.jpg', // Add explicit profile_photo field
+            description: farmer.journey || 'Dedicated farmer providing quality produce',
+            rating: 4.5, // Default rating
+            reviewCount: 50, // Default review count
+            farmSize: farmer.farm_size,
+            mainProducts: farmer.products || [],
+            gallery: farmer.gallery || [],
+            coverPhoto: farmer.cover_photo,
+            isCompleted: farmer.is_completed,
+            whatsapp: farmer.whatsapp
+          };
+        });
+        
+        console.log('Transformed farmers:', transformedFarmers);
+        return transformedFarmers;
       }
       
       // Fallback to mock data if API fails
